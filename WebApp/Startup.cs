@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TranslationManager.WebApp.Options;
 
 namespace TranslationManager.WebApp
 {
@@ -19,6 +20,13 @@ namespace TranslationManager.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions<GitHubOptions>().Configure(options =>
+            {
+                options.ClientId = Configuration["ClientId"];
+                options.ClientSecret = Configuration["ClientSecret"];
+            });
+
+            services.AddHttpClient();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the React files will be served from this directory
