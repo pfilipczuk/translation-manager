@@ -1,0 +1,9 @@
+@import '../../../node_modules/office-ui-fabric-react/dist/sass/References';
+
+.footer-contrainer {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1;
+    align-items: center;
+    justify-content: center;
+}

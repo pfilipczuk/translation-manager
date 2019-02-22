@@ -1,53 +1,45 @@
-import "./NavBar.css";
+import { CommandBar, ICommandBarItemProps, SearchBox } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { SearchBox, ICommandBarItemProps, CommandBar } from "office-ui-fabric-react";
-import { withRouter } from "react-router";
+import { RouteComponentProps, withRouter } from "react-router";
 
-export default class NavBar extends Component {
+class NavBar extends Component<RouteComponentProps> {
 
     private items: ICommandBarItemProps[] = [{
+        buttonStyles: {
+            label: "ms-fontColor-white",
+            // root: { backgroundColor: "transparent" },
+            // rootPressed: { backgroundColor: "ms-bgColor-themeTertiary"},
+            // rootHovered: { backgroundColor: "ms-bgColor-themeSecondary" },
+            // rootFocused: { outline: "0px" }
+        },
         key: "Home",
+        onClick: () => this.props.history.push("/"),
         text: "Home",
-        href: "/",
     }, {
         key: "Counter",
+        onClick: () => this.props.history.push("/counter"),
         text: "Counter",
-        href: "/counter",
     }, {
         key: "FetchData",
+        onClick: () => this.props.history.push("/fetch-data"),
         text: "Fetch data",
-        href: "/fetch-data"
-    },
-    ];
+    }];
 
-    private getItems(history: any): ICommandBarItemProps[] {
-        return this.items.map<ICommandBarItemProps>((value) => {
-            return {
-                buttonStyles: {
-                    label: "ms-fontColor-white",
-                    textContainer: { backgroundColor: "transparent" }
-                },
-                key: value.key,
-                text: value.text,
-                onClick: () => history.push(value.href)
-            }
-        });
+    public constructor(props: RouteComponentProps) {
+        super(props);
     }
 
     public render(): JSX.Element {
-        const Logo = withRouter(({ history }) => <div onClick={() => history.push("/")} className="ms-font-xl" style={{ cursor: "pointer" }}>
-            <strong>Translation Manager</strong>
-        </div>);
-        const Nav = withRouter(({ history }) => <CommandBar className="nav-bar" items={[]} farItems={this.getItems(history)}></CommandBar>);
+        const items = this.items;
 
-        return <div className="NavBar ms-bgColor-themePrimary ms-fontColor-white">
-            <Logo />
-            <div>
-                <Nav />
+        return (
+            <div style={{ display: "flex" }}>
+                <CommandBar className="nav-bar" items={items} />
                 <div className="search-box">
-                    <SearchBox labelText="Search" />
+                    <SearchBox placeholder="Search" />
                 </div>
-            </div>
-        </div>
+            </div>);
     }
 }
+
+export default withRouter(NavBar);

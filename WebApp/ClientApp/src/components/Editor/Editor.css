@@ -1,0 +1,16 @@
+.editor {
+    display: flex;
+    flex: 1 1;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.editor .source {
+    padding: 1em;
+    flex: 1 0;
+}
+
+.editor .translation {
+    padding: 1em;
+    flex: 1 1;
+}

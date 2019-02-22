@@ -1,23 +1,14 @@
 {
-    "defaultSeverity": "warning",
     "extends": [
         "tslint:recommended",
         "tslint-react"
     ],
     "jsRules": {},
     "rules": {
-        "indent": [
-            true,
-            "spaces",
-            4
-        ],
-        "comment-format": {
-            "options": "check-space"
-        },
         "max-line-length": {
             "options": {
                 "limit": 140,
-                "ignore-pattern": "^<(\\w+)>.*<\/\\1>$"
+                "ignore-pattern": "^\\s*<(\\w+)>.*<\/\\1>$"
             }
         }
     },
