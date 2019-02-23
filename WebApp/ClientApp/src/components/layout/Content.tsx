@@ -2,8 +2,8 @@ import { Stack } from "office-ui-fabric-react";
 import React, { Component } from "react";
 import { IResource } from "../../services/FileService";
 import { Editor } from "../Editor/Editor";
-import { Selection } from "../Editor/Selection";
 import { IFileDto } from "../Editor/IFileDto";
+import { Selection } from "../Editor/Selection";
 
 interface IState {
     file: IFileDto;
