@@ -84,4 +84,4 @@ export class SettingsButton extends Component<IProps, IState> {
     }
 }
 
-export default styled(SettingsButton, (props: any) => { });
+export default styled(SettingsButton, {});

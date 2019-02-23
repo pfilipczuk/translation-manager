@@ -1,10 +1,14 @@
-import { Label, SearchBox, Spinner } from "office-ui-fabric-react";
+import { Label, SearchBox, Spinner, Stack } from "office-ui-fabric-react";
 import React, { Component, Props } from "react";
-import { getFiles, IFile } from "../../services/fileService";
-import { Files } from "../Editor/Files";
-import { Resources } from "../Editor/Resources";
+import { getFiles, IFile, IResource } from "../../services/fileService";
+import { Files } from "./Files";
 import { IFileDto } from "./IFileDto";
-import "./Sidebar.css";
+import { Resources } from "./Resources";
+import "./Selection.css";
+
+interface IProps {
+    onSelectionChange?: (resource: IResource) => void;
+}
 
 interface IState {
     files: IFileDto[];
@@ -12,10 +16,10 @@ interface IState {
     isLoading: boolean;
 }
 
-export class Sidebar extends Component<any, IState> {
+export class Selection extends Component<IProps, IState> {
     private allFiles: IFile[];
 
-    public constructor(props: Props<{}>) {
+    public constructor(props: IProps) {
         super(props);
         this.activeFileChanged = this.activeFileChanged.bind(this);
         this._filterFiles = this._filterFiles.bind(this);
@@ -48,23 +52,13 @@ export class Sidebar extends Component<any, IState> {
         const resources = this.state.files.length === 0 ? [] : this.allFiles[this.state.selectedFileId].resources;
 
         return (
-            <div className="sidebar-container">
+            <Stack verticalFill={true} className="selection" grow={1}>
                 <SearchBox underlined={true} placeholder="Search" onChange={this._onSearch} />
-                <div className="navigation">
-                    <Label
-                        styles={{ root: { padding: "0.2em", writingMode: "tb-rl" } }}
-                        className="ms-font-xl ms-fontColor-white ms-bgColor-themeSecondary"
-                        children="Files"
-                    />
+                <Stack verticalFill={true} horizontal={true}>
                     {this.state.isLoading ? <Spinner /> : <Files files={this.state.files} onActiveItemChanged={this.activeFileChanged} />}
-                    <Label
-                        styles={{ root: { padding: "0.2em", writingMode: "tb-rl" } }}
-                        className="ms-font-xl ms-fontColor-white ms-bgColor-themeSecondary"
-                        children="Resources"
-                    />
                     {this.state.isLoading ? <Spinner /> : <Resources resources={resources} />}
-                </div>
-            </div>);
+                </Stack>
+            </Stack>);
     }
 
     private _filterFiles(text: string): Promise<IFileDto[]> {

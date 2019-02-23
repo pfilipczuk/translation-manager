@@ -26,28 +26,29 @@ export async function getFiles(): Promise<IFile[]> {
 
 function getMockFiles(): IFile[] {
     const N = 2e2;
-    const M = 1e3;
+    const M = 115;
     const date = Date.now();
-    const dateStr = new Date(date).toLocaleTimeString();
-    const fileSize = loremIpsum.length * M;
+    const dateStr = new Date(date).toLocaleString();
+    const fileSize = 14000;
     files = new Array(N);
     for (let i = 0; i < N; i++) {
         const resources: IResource[] = new Array(M);
         for (let j = 0; j < M; j++) {
             resources[j] = {
                 editor: "Pavlo Filipchuk",
-                key: `File_${i + 1}:Resource_${j + 1}`,
-                source: loremIpsum,
+                key: `${i + 1}.${j + 1}.achievement_for_the_glory_tooltip`,
+                source: `${i + 1}:${j+1} ${loremIpsum}`,
+                translation: `${i + 1}:${j+1}` + " Translated " + loremIpsum,
             };
         }
         files[i] = {
             fileSize,
             id: i,
             modified: dateStr,
-            name: `File ${i + 1}`,
+            name: `achievements ${i + 1}`,
             resources,
             resxCount: M,
-            translatedCount: 0,
+            translatedCount: 115,
         };
     }
 // tslint:disable-next-line: no-console

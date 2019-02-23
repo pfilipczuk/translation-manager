@@ -1,64 +1,29 @@
 import {
-    DefaultPalette,
-    getTheme,
-    ITheme,
-    registerOnThemeChangeCallback,
-    removeOnThemeChangeCallback,
-    Stack as div,
+    DefaultPalette, Stack, DefaultFontStyles, Label,
 } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { RouteComponentProps, withRouter } from "react-router";
-import { User } from "../User/User";
 import SettingsButton from "../SettingsButton";
-import "./Header.css";
+import { User } from "../User/User";
 
-interface IHeaderProps extends RouteComponentProps {
-    onSettingsClick: () => void;
-}
-
-interface IHeaderState {
-    theme: ITheme;
-}
-
-class Header extends Component<IHeaderProps, IHeaderState> {
-    constructor(props: IHeaderProps) {
+export class Header extends Component {
+    constructor(props: {}) {
         super(props);
-        this.onThemeChange = this.onThemeChange.bind(this);
-
-        this.state = {
-            theme: getTheme(),
-        };
-    }
-
-    public componentDidMount() {
-        registerOnThemeChangeCallback(this.onThemeChange);
-    }
-
-    public componentWillUnmount() {
-        removeOnThemeChangeCallback(this.onThemeChange);
-    }
-
-    public onThemeChange(theme: ITheme) {
-        this.setState({ theme });
     }
 
     public render(): JSX.Element {
-        const navigateRoot = () => this.props.history.push("/");
+        const style: React.CSSProperties = {
+            backgroundColor: DefaultPalette.themeDarker, color: DefaultPalette.white,
+        };
 
         return (
-            <div
-                style={{ backgroundColor: DefaultPalette.themeDarker, color: DefaultPalette.white }}
-                className="header-container"
-            >
-                <div className="title ms-font-xl" onClick={navigateRoot}>
-                    <span>Translation Manager {process.env.REACT_APP_DEMO ? "(Demo)" : ""}</span>
-                </div>
-                <div style={{height: "100%", display: "flex"}}>
+            <Stack horizontal={true} grow={1} style={style} horizontalAlign="space-between" verticalAlign="center">
+                <Label styles={{ root: { ...DefaultFontStyles.xLarge, marginLeft: "0.5em", color: DefaultPalette.white } }}>
+                    Translation Manager {process.env.REACT_APP_DEMO ? "(Demo)" : ""}
+                </Label>
+                <div style={{ height: "100%", display: "flex" }}>
                     <SettingsButton />
                     <User />
                 </div>
-            </div>);
+            </Stack>);
     }
 }
-
-export default withRouter(Header);

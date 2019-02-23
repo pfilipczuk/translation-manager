@@ -1,8 +1,13 @@
-import { CommandBar, ICommandBarItemProps, ITextFieldProps, Stack, TextField, Label, StackItem, IStyle } from "office-ui-fabric-react";
-import React, { Component, Props, ReactNode } from "react";
+import { CommandBar, ICommandBarItemProps, IStyle, ITextFieldProps, Label, Stack, StackItem, TextField } from "office-ui-fabric-react";
+import React, { Component, ReactNode } from "react";
+import { IResource } from "../../services/fileService";
 import "./Editor.css";
 
-export class Editor extends Component {
+interface IProps {
+    resource: IResource;
+}
+
+export class Editor extends Component<IProps> {
     public commands: ICommandBarItemProps[] = [{
         iconProps: {
             iconName: "Undo",
@@ -23,7 +28,7 @@ export class Editor extends Component {
         translation: string,
     };
 
-    public constructor(props: Props<{}>) {
+    public constructor(props: IProps) {
         super(props);
         this.state = {
             // tslint:disable-next-line: max-line-length
@@ -43,14 +48,20 @@ export class Editor extends Component {
             flexGrow: 1,
         };
 
+        const styles = {
+            field: flexStyle,
+            fieldGroup: { height: "100%" },
+            root: { ...flexStyle, paddingBottom: "1em" },
+            wrapper: flexStyle,
+        };
+
         return (
-            <Stack padding="0.2em 1em" verticalFill={true} style={{ flexGrow: 1 }}>
+            <Stack padding="0.2em 1em" verticalFill={true} grow={1}>
                 <StackItem grow={1} disableShrink={true} align="stretch">
                     <Stack verticalFill={true}>
                         <TextField
                             inputClassName="ms-font-xl"
-                            styles={{ root: { ...flexStyle, paddingBottom: "1em" }, wrapper: flexStyle, fieldGroup: { height: "100%" }, field: flexStyle }}
-                            // styles={{ field: { height: "13em" } }}
+                            styles={styles}
                             label="Source"
                             resizable={false}
                             onRenderLabel={renderLabel}
@@ -65,8 +76,7 @@ export class Editor extends Component {
                         <CommandBar items={this.commands} />
                         <TextField
                             inputClassName="ms-font-xl"
-                            styles={{ root: { ...flexStyle, paddingBottom: "1em" }, wrapper: flexStyle, fieldGroup: { height: "100%" }, field: flexStyle }}
-                            // styles={{ field: { height: "15em" } }}
+                            styles={styles}
                             resizable={false}
                             label="Translation"
                             onRenderLabel={renderLabel}

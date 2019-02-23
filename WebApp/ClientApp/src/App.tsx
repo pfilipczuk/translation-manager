@@ -1,60 +1,36 @@
-import { Fabric, getTheme, ITheme, loadTheme, mergeStyles, Panel, registerOnThemeChangeCallback, Toggle } from "office-ui-fabric-react";
+import { Fabric, IStyleFunctionOrObject, ITheme, mergeStyles, styled } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { Content, Footer, Header, Sidebar } from "./components/layout/index";
+import { Content, Footer, Header } from "./components/layout/index";
 import "./styles/App.css";
-import { DarkTheme, LightTheme } from "./themes/themes";
 
-const styles = mergeStyles({
+const flex = mergeStyles({
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
 });
 
-const changeTheme = (event: any, checked?: boolean) => checked ? loadTheme(DarkTheme) : loadTheme(LightTheme);
-
-interface IState {
-    showSettings: boolean;
-    theme: ITheme;
+interface IProps {
+    theme?: ITheme;
+    styles?: IStyleFunctionOrObject<any, any>;
 }
 
-export default class App extends Component<{}, IState> {
+export class App extends Component<IProps> {
     public static displayName = App.name;
 
-    constructor(props: any) {
+    constructor(props: IProps) {
         super(props);
-
-        this._onThemeUpdate = this._onThemeUpdate.bind(this);
-
-        this.state = {
-            showSettings: false,
-            theme: getTheme(),
-        };
-
-        registerOnThemeChangeCallback(this._onThemeUpdate);
     }
 
     public render(): JSX.Element {
+        const styles = { backgroundColor: this.props.theme!.palette.white };
+
         return (
-            <Fabric className={styles}>
+            <Fabric className={flex}>
                 <div className="header">
-                    <Header onSettingsClick={this._showSettings} />
+                    <Header />
                 </div>
-                <div style={{ backgroundColor: this.state.theme.palette.white }} className="body">
-                    <div className="sidebar">
-                        <Sidebar />
-                    </div>
-                    <div className="content">
+                <div className="body" style={styles}>
                         <Content />
-                    </div>
-                    <Panel
-                        style={{ top: "4em", bottom: "3em", left: "calc(100vw - 340px" }}
-                        isLightDismiss={true}
-                        onLightDismissClick={this._hideSettings}
-                        headerText="Settings"
-                        isOpen={this.state.showSettings}
-                    >
-                        <Toggle label="Dark theme" inlineLabel={true} onChange={changeTheme} />
-                    </Panel>
                 </div>
                 <div className="footer">
                     <Footer />
@@ -62,20 +38,6 @@ export default class App extends Component<{}, IState> {
             </Fabric>
         );
     }
-
-    private _onThemeUpdate = (theme: ITheme) => {
-        this.setState({ theme });
-    }
-
-    private _showSettings = () => {
-        this.setState({
-            showSettings: true,
-        });
-    }
-
-    private _hideSettings = () => {
-        this.setState({
-            showSettings: false,
-        });
-    }
 }
+
+export default styled(App, {});

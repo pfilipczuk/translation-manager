@@ -1,6 +1,5 @@
-import { getTheme, ITheme, registerOnThemeChangeCallback, removeOnThemeChangeCallback, Toggle } from "office-ui-fabric-react";
-import React, { Component, ReactNode } from "react";
-import "./Footer.scss";
+import { getTheme, IStyle, ITheme, registerOnThemeChangeCallback, removeOnThemeChangeCallback, Stack } from "office-ui-fabric-react";
+import React, { Component } from "react";
 
 interface IState {
     theme: ITheme;
@@ -27,15 +26,15 @@ export class Footer extends Component<{}, IState> {
         this.setState({ theme });
     }
 
-    public render(): ReactNode {
-        const style: React.CSSProperties = {
+    public render(): JSX.Element {
+        const styles: IStyle = {
             backgroundColor: this.state.theme.palette.purpleDark,
             color: this.state.theme.palette.white,
         };
 
         return (
-            <div className="footer-contrainer" style={style}>
+            <Stack grow={1} verticalAlign="center" horizontalAlign="center" styles={{root: styles}}>
                 <span className="ms-font-m">Translation Manager 2019 - made by Pavlo Filipchuk</span>
-            </div>);
+            </Stack>);
     }
 }

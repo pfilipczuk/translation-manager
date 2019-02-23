@@ -19,13 +19,3 @@
     flex-direction: row;
     flex: 1 1;
 }
-
-.sidebar {
-    display: flex;
-    flex: 0 0 45%;
-}
-
-.body .content {
-    display: flex;
-    flex: 1 1;
-}

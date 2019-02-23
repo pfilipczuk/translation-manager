@@ -1,23 +1,25 @@
+import { Stack } from "office-ui-fabric-react";
 import React, { Component } from "react";
+import { IResource } from "../../services/FileService";
 import { Editor } from "../Editor/Editor";
-import "./Content.css";
+import { Selection } from "../Editor/Selection";
 
 interface IState {
-    showPanel: boolean;
+    resource: IResource;
 }
 
-export class Content extends Component<{}, IState> {
-    constructor(props: {}) {
-        super(props);
-
-        this.state = {
-            showPanel: true,
-        };
-    }
+export class Content extends Component<any, IState> {
     public render(): JSX.Element {
         return (
-            <div className="content-container">
-                <Editor />
-            </div>);
+            <Stack horizontal={true} grow={1}>
+                    <Selection onSelectionChange={this.onResourceChanged} />
+                    <Editor resource={this.state.resource}/>
+            </Stack>);
+    }
+
+    private onResourceChanged = (resource: IResource) => {
+        this.setState({
+            resource,
+        });
     }
 }

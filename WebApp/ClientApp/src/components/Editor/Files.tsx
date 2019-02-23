@@ -1,14 +1,17 @@
 import {
-    ActivityItem,
     DetailsList,
     DetailsListLayoutMode,
     IColumn,
     ScrollablePane,
     ScrollbarVisibility,
-    SelectionMode } from "office-ui-fabric-react";
-import React, { Component, Props, ReactNode } from "react";
-import { IFile } from "../../services/fileService";
-import { IFileDto } from "../layout/IFileDto";
+    SelectionMode,
+    Label,
+    Stack,
+    StackItem,
+} from "office-ui-fabric-react";
+import { DefaultPalette } from "office-ui-fabric-react";
+import React, { Component, ReactNode } from "react";
+import { IFileDto } from "./IFileDto";
 
 interface IProps {
     files: IFileDto[];
@@ -19,45 +22,67 @@ export class Files extends Component<IProps> {
     private columns: IColumn[] = [{
         fieldName: "name",
         key: "name",
-        maxWidth: 100,
         minWidth: 50,
         name: "Name",
     }, {
-        fieldName: "doneRatio",
-        isCollapsible: false,
-        key: "doneRatio",
-        maxWidth: 100,
-        minWidth: 50,
+        fieldName: "modified",
+        key: "modified",
+        minWidth: 125,
+        name: "Date Modified",
+    }, {
+        key: "translated",
+        minWidth: 60,
         name: "Translated",
+        onRender: this.renderTranslated,
+    }, {
+        key: "fileSize",
+        minWidth: 50,
+        name: "File Size",
+        onRender: this.renderFileSize,
     }];
 
     public constructor(props: IProps) {
         super(props);
-        this.onRenderItem = this.onRenderItem.bind(this);
+        this.renderTranslated = this.renderTranslated.bind(this);
+        this.renderFileSize = this.renderFileSize.bind(this);
     }
 
     public render(): ReactNode {
         return (
-            <div className="files">
-                <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>
+            <Stack horizontal={true}>
+                <Label
+                    styles={{ root: { writingMode: "tb-rl" } }}
+                    className="ms-font-xl ms-fontColor-white ms-bgColor-themeSecondary"
+                    children="Files"
+                />
+                <StackItem grow={1} styles={{ root: { overflowY: "auto" } }}>
+                    {/* <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}> */}
                     <DetailsList
                         layoutMode={DetailsListLayoutMode.justified}
-                        selectionMode={SelectionMode.single}
+                        selectionMode={SelectionMode.none}
                         items={this.props.files}
                         columns={this.columns}
                         onActiveItemChanged={this.props.onActiveItemChanged}
                     />
-                </ScrollablePane>
-            </div>);
+                    {/* </ScrollablePane> */}
+                </StackItem>
+            </Stack>);
     }
 
-    private onRenderItem(item: IFile, index?: number, isScrolling?: boolean): ReactNode {
-        return (
-            <ActivityItem
-                key={index}
-                activityDescription={[<span key={1}>{item.name}</span>]}
-                // timeStamp={`Edited by ${item.modifiedBy} just now`}
-            />
-        );
+    private renderTranslated(item: IFileDto, index?: number, column?: IColumn): JSX.Element {
+        let color;
+        if (item.translatedCount === 0) {
+            color = DefaultPalette.red;
+        } else if (item.translatedCount === item.resxCount) {
+            color = DefaultPalette.green;
+        } else {
+            color = DefaultPalette.yellow;
+        }
+
+        return (<span style={{ color }}>{`${item.translatedCount}/${item.resxCount}`}</span>);
+    }
+
+    private renderFileSize(item: IFileDto, index?: number, column?: IColumn): JSX.Element {
+        return (<span>{`${item.fileSize / 1000} KB`}</span>);
     }
 }

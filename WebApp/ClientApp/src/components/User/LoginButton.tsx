@@ -1,7 +1,4 @@
-import {
-    Button as ActionButton, DefaultPalette, getTheme,
-    IButtonProps, IButtonStyles, ITheme, registerOnThemeChangeCallback, removeOnThemeChangeCallback,
-} from "office-ui-fabric-react";
+import { ActionButton, DefaultPalette, IButtonProps, IButtonStyles } from "office-ui-fabric-react";
 import React, { Component, ReactNode } from "react";
 import { ISuccess, PopupWindow } from "./PopupWindow";
 import { toQuery } from "./utils";
@@ -15,11 +12,7 @@ interface IProps {
     onFailure: (error: Error) => void;
 }
 
-interface IState {
-    theme: ITheme;
-}
-
-export class LoginButton extends Component<IProps & IButtonProps, IState> {
+export class LoginButton extends Component<IProps & IButtonProps> {
     public static defaultProps = {
         onFailure: () => { },
         onRequest: () => { },
@@ -36,18 +29,6 @@ export class LoginButton extends Component<IProps & IButtonProps, IState> {
                 this.props.onSuccess({ userName: "Demo User", iconUrl: process.env.PUBLIC_URL + "photo.jpg" });
             };
         }
-
-        this.state = {
-            theme: getTheme(),
-        };
-    }
-
-    public componentDidMount() {
-        registerOnThemeChangeCallback(this.onThemeChange);
-    }
-
-    public componentWillUnmount() {
-        removeOnThemeChangeCallback(this.onThemeChange);
     }
 
     public onBtnClick() {
@@ -84,7 +65,7 @@ export class LoginButton extends Component<IProps & IButtonProps, IState> {
     }
 
     public render(): ReactNode {
-        const { className, children } = this.props;
+        const { className } = this.props;
         const attrs: React.ButtonHTMLAttributes<HTMLButtonElement> = { onClick: this.onBtnClick };
 
         if (className) {
@@ -98,12 +79,8 @@ export class LoginButton extends Component<IProps & IButtonProps, IState> {
                 marginRight: "1em",
                 width: "2em",
             },
-            iconPressed: { fill: DefaultPalette.black },
-            label: {
-                color: DefaultPalette.white,
-            },
             root: {
-                backgroundColor: DefaultPalette.black,
+                backgroundColor: DefaultPalette.neutralDark,
                 borderWidth: 0,
                 color: DefaultPalette.white,
                 height: "100%",
@@ -119,9 +96,5 @@ export class LoginButton extends Component<IProps & IButtonProps, IState> {
                 <span>Sign in with GitHub</span>
             </ActionButton>
         );
-    }
-
-    private onThemeChange(theme: ITheme): any {
-        this.setState({ theme });
     }
 }
