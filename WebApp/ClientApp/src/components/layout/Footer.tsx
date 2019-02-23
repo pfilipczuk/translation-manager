@@ -1,6 +1,5 @@
 import { getTheme, ITheme, registerOnThemeChangeCallback, removeOnThemeChangeCallback, Toggle } from "office-ui-fabric-react";
 import React, { Component, ReactNode } from "react";
-import { loadThemeDark, loadThemeLight } from "../services/Themes";
 import "./Footer.scss";
 
 interface IState {
@@ -29,8 +28,6 @@ export class Footer extends Component<{}, IState> {
     }
 
     public render(): ReactNode {
-        const changeTheme = (event: any, checked?: boolean) => checked ? loadThemeDark() : loadThemeLight();
-
         const style: React.CSSProperties = {
             backgroundColor: this.state.theme.palette.purpleDark,
             color: this.state.theme.palette.white,

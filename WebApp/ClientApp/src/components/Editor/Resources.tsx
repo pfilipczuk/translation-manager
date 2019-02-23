@@ -1,7 +1,6 @@
 import { DetailsList, DetailsListLayoutMode, IColumn, ScrollablePane, ScrollbarVisibility, SelectionMode, IDetailsRowProps, Shimmer, Spinner } from "office-ui-fabric-react";
 import React, { Component, ReactNode } from "react";
-import { IResource } from "../services/FileService";
-import { number } from "prop-types";
+import { IResource } from "../../services/fileService";
 
 interface IProps {
     resources: IResource[];

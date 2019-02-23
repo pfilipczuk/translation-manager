@@ -1,9 +1,8 @@
-import { Fabric, getTheme, ITheme, mergeStyles, Panel, registerOnThemeChangeCallback, Toggle, LayerHost } from "office-ui-fabric-react";
+import { Fabric, getTheme, ITheme, loadTheme, mergeStyles, Panel, registerOnThemeChangeCallback, Toggle } from "office-ui-fabric-react";
 import React, { Component } from "react";
 import { Content, Footer, Header, Sidebar } from "./components/layout/index";
-import { loadThemeDark, loadThemeLight } from "./components/services/Themes";
-// import {mergeStyleSets} fr
 import "./styles/App.css";
+import { DarkTheme, LightTheme } from "./themes/themes";
 
 const styles = mergeStyles({
     display: "flex",
@@ -11,7 +10,7 @@ const styles = mergeStyles({
     minHeight: "100vh",
 });
 
-const changeTheme = (event: any, checked?: boolean) => checked ? loadThemeDark() : loadThemeLight();
+const changeTheme = (event: any, checked?: boolean) => checked ? loadTheme(DarkTheme) : loadTheme(LightTheme);
 
 interface IState {
     showSettings: boolean;
@@ -47,13 +46,10 @@ export default class App extends Component<{}, IState> {
                     <div className="content">
                         <Content />
                     </div>
-                    {/* <LayerHost id="settingsHost"/> */}
                     <Panel
-                        // style={{position: "relative"}}
-                        // layerProps={{hostId: "settingsHost"}}
+                        style={{ top: "4em", bottom: "3em", left: "calc(100vw - 340px" }}
                         isLightDismiss={true}
                         onLightDismissClick={this._hideSettings}
-                        isBlocking={false}
                         headerText="Settings"
                         isOpen={this.state.showSettings}
                     >

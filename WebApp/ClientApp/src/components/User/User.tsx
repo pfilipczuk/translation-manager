@@ -1,6 +1,5 @@
-import { ITheme, Persona, PersonaSize } from "office-ui-fabric-react";
+import { DefaultPalette, IPersonaStyles, ITheme, Persona, PersonaSize } from "office-ui-fabric-react";
 import React, { Component, Props } from "react";
-// import "./Auth.css";
 import { LoginButton } from "./LoginButton";
 
 interface ISuccess {
@@ -12,7 +11,7 @@ interface IState {
     theme: ITheme;
 }
 
-export class Auth extends Component {
+export class User extends Component {
 
     public state: {
         logged: boolean,
@@ -50,13 +49,22 @@ export class Auth extends Component {
     }
 
     public render(): JSX.Element {
+        const styles: Partial<IPersonaStyles> = {
+            primaryText: {
+                color: `${DefaultPalette.white} !important`,
+            },
+            root: {
+                height: "4em", marginLeft: "1em",
+            },
+        };
+
         if (this.state.logged) {
             return (
                 <Persona
                     text={this.state.userName}
                     imageUrl={this.state.iconUrl}
                     size={PersonaSize.size40}
-                    styles={{primaryText: "ms-fontColor-white ms-fontColor-white--hover"}}
+                    styles={styles}
                 />);
         }
 
@@ -69,7 +77,7 @@ export class Auth extends Component {
                 redirectUri={`${document.location.origin}/login/oauth2/callback`}
             >
                 Sign in with GitHub
-            </LoginButton>
+            </LoginButton >
         );
     }
 

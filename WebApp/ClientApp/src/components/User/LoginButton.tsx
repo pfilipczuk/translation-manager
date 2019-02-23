@@ -1,10 +1,10 @@
 import {
-    Button as ActionButton, getTheme, IButtonProps,
-    IButtonStyles, ITheme, registerOnThemeChangeCallback, removeOnThemeChangeCallback,
+    Button as ActionButton, DefaultPalette, getTheme,
+    IButtonProps, IButtonStyles, ITheme, registerOnThemeChangeCallback, removeOnThemeChangeCallback,
 } from "office-ui-fabric-react";
 import React, { Component, ReactNode } from "react";
 import { ISuccess, PopupWindow } from "./PopupWindow";
-import { toQuery } from "./Utils";
+import { toQuery } from "./utils";
 
 interface IProps {
     clientId: string;
@@ -93,24 +93,24 @@ export class LoginButton extends Component<IProps & IButtonProps, IState> {
 
         const styles: IButtonStyles = {
             icon: {
-                fill: this.state.theme.palette.white,
+                fill: DefaultPalette.white,
                 height: "2em",
                 marginRight: "1em",
                 width: "2em",
             },
-            iconPressed: { fill: this.state.theme.palette.black },
+            iconPressed: { fill: DefaultPalette.black },
             label: {
-                color: this.state.theme.palette.white,
+                color: DefaultPalette.white,
             },
             root: {
-                backgroundColor: this.state.theme.palette.black,
+                backgroundColor: DefaultPalette.black,
                 borderWidth: 0,
-                color: this.state.theme.palette.white,
+                color: DefaultPalette.white,
                 height: "100%",
             },
             rootHovered: {
-                backgroundColor: this.state.theme.palette.blackTranslucent40,
-                color: this.state.theme.palette.white,
+                backgroundColor: DefaultPalette.blackTranslucent40,
+                color: DefaultPalette.white,
             },
         };
 

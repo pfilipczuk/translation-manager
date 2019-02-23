@@ -1,4 +1,4 @@
-import { toParams, toQuery } from "./Utils";
+import { toParams, toQuery } from "./utils";
 
 export interface ISuccess {
     code: string;

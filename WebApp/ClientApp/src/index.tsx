@@ -1,18 +1,18 @@
-import { initializeIcons, registerIcons } from "office-ui-fabric-react";
+import { initializeIcons, loadTheme, registerIcons } from "office-ui-fabric-react";
 import "office-ui-fabric-react/dist/css/fabric.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import { loadThemeLight } from "./components/services/Themes";
 import { ReactComponent as GitHubLogo } from "./icons/github.svg";
 import registerServiceWorker from "./registerServiceWorker";
 import "./styles/index.css";
+import { LightTheme } from "./themes/themes";
 
 const baseUrl = document.getElementsByTagName("base")[0].getAttribute("href") as string;
 const rootElement = document.getElementById("root");
 
-loadThemeLight();
+loadTheme(LightTheme);
 
 registerIcons({
     icons: {

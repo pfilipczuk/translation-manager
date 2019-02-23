@@ -1,8 +1,8 @@
 import { Label, SearchBox, Spinner } from "office-ui-fabric-react";
 import React, { Component, Props } from "react";
+import { getFiles, IFile } from "../../services/fileService";
 import { Files } from "../Editor/Files";
 import { Resources } from "../Editor/Resources";
-import { getFiles, IFile } from "../services/FileService";
 import { IFileDto } from "./IFileDto";
 import "./Sidebar.css";
 

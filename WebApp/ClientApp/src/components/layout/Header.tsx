@@ -1,7 +1,15 @@
-import { getTheme, ITheme, registerOnThemeChangeCallback, removeOnThemeChangeCallback, IconButton, IButtonStyles, Stack } from "office-ui-fabric-react";
+import {
+    DefaultPalette,
+    getTheme,
+    ITheme,
+    registerOnThemeChangeCallback,
+    removeOnThemeChangeCallback,
+    Stack as div,
+} from "office-ui-fabric-react";
 import React, { Component } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
-import { Auth } from "../Auth/Auth";
+import { User } from "../User/User";
+import SettingsButton from "../SettingsButton";
 import "./Header.css";
 
 interface IHeaderProps extends RouteComponentProps {
@@ -36,26 +44,19 @@ class Header extends Component<IHeaderProps, IHeaderState> {
 
     public render(): JSX.Element {
         const navigateRoot = () => this.props.history.push("/");
-        const styles: IButtonStyles = {
-            icon: {
-                color: this.state.theme.palette.white,
-                fontSize: this.state.theme.fonts.xxLarge.fontSize,
-            },
-            root: {marginRight: "1em"},
-        };
 
         return (
             <div
-                style={{ backgroundColor: this.state.theme.palette.themeDarker, color: this.state.theme.palette.white }}
+                style={{ backgroundColor: DefaultPalette.themeDarker, color: DefaultPalette.white }}
                 className="header-container"
             >
                 <div className="title ms-font-xl" onClick={navigateRoot}>
                     <span>Translation Manager {process.env.REACT_APP_DEMO ? "(Demo)" : ""}</span>
                 </div>
-                <Stack horizontal={true} verticalFill={true} verticalAlign="center">
-                    <IconButton onClick={this.props.onSettingsClick} styles={styles} iconProps={{ iconName: "Settings" }} />
-                    <Auth />
-                </Stack>
+                <div style={{height: "100%", display: "flex"}}>
+                    <SettingsButton />
+                    <User />
+                </div>
             </div>);
     }
 }

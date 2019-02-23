@@ -7,8 +7,8 @@ import {
     ScrollbarVisibility,
     SelectionMode } from "office-ui-fabric-react";
 import React, { Component, Props, ReactNode } from "react";
+import { IFile } from "../../services/fileService";
 import { IFileDto } from "../layout/IFileDto";
-import { IFile } from "../services/FileService";
 
 interface IProps {
     files: IFileDto[];
