@@ -1,6 +1,6 @@
 import { CommandBar, ICommandBarItemProps, IStyle, ITextFieldProps, Label, Stack, StackItem, TextField } from "office-ui-fabric-react";
 import React, { Component, ReactNode } from "react";
-import { IResource } from "../../services/fileService";
+import { IResource } from "../../services/FileService";
 import "./Editor.css";
 
 interface IProps {

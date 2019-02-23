@@ -14,7 +14,7 @@ import {
     StackItem,
 } from "office-ui-fabric-react";
 import React, { Component, ReactNode } from "react";
-import { IResource } from "../../services/fileService";
+import { IResource } from "../../services/FileService";
 
 interface IProps {
     resources: IResource[];

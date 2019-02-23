@@ -9,6 +9,7 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <AssemblyName>TranslationManager.WebApp</AssemblyName>
     <RootNamespace>TranslationManager.WebApp</RootNamespace>
+    <UserSecretsId>33db4c69-eb65-4b15-9e68-9c128cbc1378</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,13 +1,13 @@
-import { Label, SearchBox, Spinner, Stack } from "office-ui-fabric-react";
-import React, { Component, Props } from "react";
-import { getFiles, IFile, IResource } from "../../services/fileService";
+import { SearchBox, Spinner, Stack } from "office-ui-fabric-react";
+import React, { Component } from "react";
+import { getFiles, IFile, IResource } from "../../services/FileService";
 import { Files } from "./Files";
 import { IFileDto } from "./IFileDto";
 import { Resources } from "./Resources";
 import "./Selection.css";
 
 interface IProps {
-    onSelectionChange?: (resource: IResource) => void;
+    onSelectionChange?: (file: IFileDto, resource: IResource) => void;
 }
 
 interface IState {
