@@ -1,37 +1,54 @@
 import { Stack } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { IResource } from "../../services/FileService";
+import { IFile, IResource, getFiles } from "../../services/FileService";
 import { Editor } from "../Editor/Editor";
 import { IFileDto } from "../Editor/IFileDto";
 import { Selection } from "../Editor/Selection";
 
 interface IState {
-    file: IFileDto;
+    files: IFile[];
     resource: IResource;
 }
 
 export class Content extends Component<any, IState> {
+    private allFiles: IFile[];
+
     constructor(props: any) {
         super(props);
-
+        this.allFiles = [];
         this.state = {
-            file: {} as IFileDto,
+            files: [],
             resource: { editor: "", key: "", source: "", translation: ""},
         };
+    }
+
+    public async componentDidMount(): Promise<void> {
+        this.allFiles = await getFiles();
+        this.setState({
+            files: this.allFiles,
+        });
     }
 
     public render(): JSX.Element {
         return (
             <Stack horizontal={true} grow={1}>
-                    <Selection onSelectionChange={this.onSelectionChange} />
-                    <Editor resource={this.state.resource}/>
+                    <Selection files={this.state.files} onSelectionChange={this.onSelectionChange} />
+                    <Editor onEdit={this.onTranslation} resource={this.state.resource}/>
             </Stack>);
     }
 
-    private onSelectionChange = (file: IFileDto, resource: IResource) => {
+    private onSelectionChange = (file: IFile, resource: IResource) => {
         this.setState({
-            file,
             resource,
         });
+    }
+
+    private onTranslation = (translation: string) => {
+        this.setState((prev) => ({
+            resource: {
+                ...prev.resource,
+                translation,
+            },
+        }));
     }
 }

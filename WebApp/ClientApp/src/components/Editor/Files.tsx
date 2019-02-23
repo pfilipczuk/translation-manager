@@ -2,20 +2,21 @@ import {
     DetailsList,
     DetailsListLayoutMode,
     IColumn,
+    Label,
     ScrollablePane,
     ScrollbarVisibility,
     SelectionMode,
-    Label,
     Stack,
     StackItem,
 } from "office-ui-fabric-react";
 import { DefaultPalette } from "office-ui-fabric-react";
 import React, { Component, ReactNode } from "react";
-import { IFileDto } from "./IFileDto";
+import { IFile } from "../../services/FileService";
 
 interface IProps {
-    files: IFileDto[];
-    onActiveItemChanged?: (item?: IFileDto, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
+    files: IFile[];
+    onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
+    filterText?: string;
 }
 
 export class Files extends Component<IProps> {
@@ -45,6 +46,7 @@ export class Files extends Component<IProps> {
         super(props);
         this.renderTranslated = this.renderTranslated.bind(this);
         this.renderFileSize = this.renderFileSize.bind(this);
+        this.filterFiles = this.filterFiles.bind(this);
     }
 
     public render(): ReactNode {
@@ -60,7 +62,7 @@ export class Files extends Component<IProps> {
                     <DetailsList
                         layoutMode={DetailsListLayoutMode.justified}
                         selectionMode={SelectionMode.none}
-                        items={this.props.files}
+                        items={this.filterFiles()}
                         columns={this.columns}
                         onActiveItemChanged={this.props.onActiveItemChanged}
                     />
@@ -69,7 +71,7 @@ export class Files extends Component<IProps> {
             </Stack>);
     }
 
-    private renderTranslated(item: IFileDto, index?: number, column?: IColumn): JSX.Element {
+    private renderTranslated(item: IFile, index?: number, column?: IColumn): JSX.Element {
         let color;
         if (item.translatedCount === 0) {
             color = DefaultPalette.red;
@@ -82,7 +84,28 @@ export class Files extends Component<IProps> {
         return (<span style={{ color }}>{`${item.translatedCount}/${item.resxCount}`}</span>);
     }
 
-    private renderFileSize(item: IFileDto, index?: number, column?: IColumn): JSX.Element {
+    private renderFileSize(item: IFile, index?: number, column?: IColumn): JSX.Element {
         return (<span>{`${item.fileSize / 1000} KB`}</span>);
+    }
+
+    private filterFiles() {
+        if (this.props.filterText) {
+            return this.props.files.filter((file) => {
+                if (file.name.indexOf(this.props.filterText!) !== -1) {
+                    return true;
+                }
+                const hasResources = file.resources.some((resource) => {
+                    if (resource.source.indexOf(this.props.filterText!) !== -1) {
+                        return true;
+                    }
+                    if (resource.translation && resource.translation.indexOf(this.props.filterText!) !== -1) {
+                        return true;
+                    }
+                    return false;
+                });
+                return hasResources;
+            });
+        }
+        return this.props.files;
     }
 }

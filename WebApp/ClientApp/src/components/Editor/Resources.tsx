@@ -18,6 +18,8 @@ import { IResource } from "../../services/FileService";
 
 interface IProps {
     resources: IResource[];
+    onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
+    filterText?: string;
 }
 
 export class Resources extends Component<IProps> {
@@ -39,7 +41,7 @@ export class Resources extends Component<IProps> {
 
     public constructor(props: IProps) {
         super(props);
-
+        this.filterResources = this.filterResources.bind(this);
         this.onRenderResource = this.onRenderResource.bind(this);
     }
 
@@ -53,12 +55,13 @@ export class Resources extends Component<IProps> {
                 />
                 <StackItem grow={1} verticalFill={true} styles={{ root: { position: "relative" } }}>
                     <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>
-                    <DetailsList
-                        layoutMode={DetailsListLayoutMode.justified}
-                        selectionMode={SelectionMode.none}
-                        items={this.props.resources}
-                        columns={this.columns}
-                    />
+                        <DetailsList
+                            layoutMode={DetailsListLayoutMode.justified}
+                            selectionMode={SelectionMode.none}
+                            items={this.filterResources()}
+                            columns={this.columns}
+                            onActiveItemChanged={this.props.onActiveItemChanged}
+                        />
                     </ScrollablePane>
                 </StackItem>
             </Stack>
@@ -75,5 +78,20 @@ export class Resources extends Component<IProps> {
                 text={resource.key}
                 secondaryText={resource.source}
             />);
+    }
+
+    private filterResources() {
+        if (this.props.filterText) {
+            return this.props.resources.filter((resource) => {
+                if (resource.source.indexOf(this.props.filterText!) !== -1) {
+                    return true;
+                }
+                if (resource.translation && resource.translation.indexOf(this.props.filterText!) !== -1) {
+                    return true;
+                }
+                return false;
+            });
+        }
+        return this.props.resources;
     }
 }
