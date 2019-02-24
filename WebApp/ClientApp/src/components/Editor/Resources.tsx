@@ -1,9 +1,8 @@
 import {
     DefaultPalette,
-    DetailsList,
-    DetailsListLayoutMode, getInitials,
+    DetailsList, DetailsListLayoutMode,
+    getInitials,
     IColumn,
-    Label,
     Persona,
     PersonaInitialsColor,
     PersonaSize,
@@ -13,9 +12,9 @@ import {
     Stack,
     StackItem,
 } from "office-ui-fabric-react";
-import React, { Component, ReactNode } from "react";
+import React, { Component } from "react";
 import { IResource } from "../../services/FileService";
-
+import Ribbon from "./Ribbon";
 interface IProps {
     resources: IResource[];
     onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
@@ -24,19 +23,19 @@ interface IProps {
 
 export class Resources extends Component<IProps> {
     private columns: IColumn[] = [{
-        fieldName: "key",
         key: "name",
-        isResizable: true,
-        maxWidth: 300,
-        minWidth: 50,
         name: "Name",
+        fieldName: "key",
+        minWidth: 50,
+        maxWidth: 300,
+        isResizable: true,
         onRender: this.onRenderResource,
     }, {
-        fieldName: "editor",
         key: "editor",
-        maxWidth: 150,
-        minWidth: 100,
         name: "Modified By",
+        fieldName: "editor",
+        minWidth: 100,
+        maxWidth: 150,
     }];
 
     public constructor(props: IProps) {
@@ -45,20 +44,21 @@ export class Resources extends Component<IProps> {
         this.onRenderResource = this.onRenderResource.bind(this);
     }
 
-    public render(): ReactNode {
+    public render(): JSX.Element {
+        const resources = this.filterResources();
+
         return (
-            <Stack grow={1} verticalFill={true} horizontal={true}>
-                <Label
-                    styles={{ root: { writingMode: "tb-rl" } }}
-                    className="ms-font-xl ms-fontColor-white ms-bgColor-themeSecondary"
-                    children="Resources"
-                />
-                <StackItem grow={1} verticalFill={true} styles={{ root: { position: "relative" } }}>
+            <Stack grow={1} horizontal={true}>
+                <Ribbon>
+                    Resources
+                </Ribbon>
+                <StackItem grow={1} styles={{ root: { position: "relative" } }}>
                     <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>
                         <DetailsList
                             layoutMode={DetailsListLayoutMode.justified}
                             selectionMode={SelectionMode.none}
-                            items={this.filterResources()}
+                            selectionPreservedOnEmptyClick={true}
+                            items={resources}
                             columns={this.columns}
                             onActiveItemChanged={this.props.onActiveItemChanged}
                         />
@@ -76,11 +76,11 @@ export class Resources extends Component<IProps> {
                 coinProps={{ styles: { initials: { color: DefaultPalette.white } } }}
                 size={PersonaSize.size40}
                 text={resource.key}
-                secondaryText={resource.source}
+                secondaryText={resource.translation || resource.source}
             />);
     }
 
-    private filterResources() {
+    private filterResources(): IResource[] {
         if (this.props.filterText) {
             return this.props.resources.filter((resource) => {
                 if (resource.source.indexOf(this.props.filterText!) !== -1) {

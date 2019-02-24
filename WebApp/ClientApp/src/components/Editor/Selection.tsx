@@ -1,9 +1,7 @@
-import memoize from "memoize-one";
-import { SearchBox, Spinner, Stack } from "office-ui-fabric-react";
+import { SearchBox, Stack } from "office-ui-fabric-react";
 import React, { Component } from "react";
 import { IFile, IResource } from "../../services/FileService";
 import { Files } from "./Files";
-import { IFileDto } from "./IFileDto";
 import { Resources } from "./Resources";
 import "./Selection.css";
 
@@ -15,7 +13,6 @@ interface IProps {
 interface IState {
     files: IFile[];
     selectedFile: IFile;
-    isLoading: boolean;
     filterText: string;
 }
 
@@ -24,13 +21,11 @@ export class Selection extends Component<IProps, IState> {
         super(props);
         this.activeFileChanged = this.activeFileChanged.bind(this);
         this.activeResourceChanged = this.activeResourceChanged.bind(this);
-        this.filterFiles = this.filterFiles.bind(this);
-        this._onSearch = this._onSearch.bind(this);
+        this.onSearch = this.onSearch.bind(this);
 
         this.state = {
             files: this.props.files,
             filterText: "",
-            isLoading: false,
             selectedFile: this.props.files[0],
         };
 
@@ -41,7 +36,7 @@ export class Selection extends Component<IProps, IState> {
 
         return (
             <Stack verticalFill={true} className="selection" grow={1}>
-                <SearchBox underlined={true} placeholder="Search" onChange={this._onSearch} />
+                <SearchBox underlined={true} placeholder="Search" onChange={this.onSearch} />
                 <Stack verticalFill={true} horizontal={true}>
                     <Files filterText={this.state.filterText} files={this.props.files} onActiveItemChanged={this.activeFileChanged} />
                     <Resources filterText={this.state.filterText} onActiveItemChanged={this.activeResourceChanged} resources={resources} />
@@ -61,31 +56,9 @@ export class Selection extends Component<IProps, IState> {
         }
     }
 
-    private filterFiles(text: string): IFile[] {
-        const filter = memoize(
-            (list: IFile[], text: string): IFile[] => {
-                const files = this.props.files.map((file) => ({
-                    ...file,
-                    resources: file.resources.filter((resource) => {
-                        if (resource.source.indexOf(text) !== -1) {
-                            return true;
-                        }
-                        if (resource.translation && resource.translation.indexOf(text) !== -1) {
-                            return true;
-                        }
-                        return false;
-                    }),
-                }));
-
-                return files.filter((file) => file.name.indexOf(text) !== -1 || file.resources.length > 0);
-            });
-        return filter(this.props.files, text);
-    }
-
-    private async _onSearch(text: string): Promise<void> {
+    private onSearch(text: string): void {
         this.setState({
             filterText: text,
-            isLoading: false,
         });
     }
 }

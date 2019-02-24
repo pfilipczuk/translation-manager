@@ -5,6 +5,9 @@
     ],
     "jsRules": {},
     "rules": {
+        "object-literal-sort-keys": {
+            "options": "match-declaration-order"
+        },
         "max-line-length": {
             "options": {
                 "limit": 140,

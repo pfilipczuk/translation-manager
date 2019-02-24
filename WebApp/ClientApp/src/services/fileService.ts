@@ -1,11 +1,13 @@
+import { loremIpsum } from "./loremIpsum";
+
 export interface IFile {
     id: number;
     name: string;
+    resources: IResource[];
     modified: string;
+    fileSize: number;
     resxCount: number;
     translatedCount: number;
-    fileSize: number;
-    resources: IResource[];
 }
 
 export interface IResource {
@@ -14,9 +16,6 @@ export interface IResource {
     translation?: string;
     editor: string;
 }
-
-// tslint:disable-next-line: max-line-length
-const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel tempus metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque. Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus eget nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi, in interdum massa nibh nec erat.";
 
 let files: IFile[] = [];
 
@@ -35,23 +34,25 @@ function getMockFiles(): IFile[] {
         const resources: IResource[] = new Array(M);
         for (let j = 0; j < M; j++) {
             resources[j] = {
-                editor: "Pavlo Filipchuk",
                 key: `${i + 1}.${j + 1}.achievement_for_the_glory_tooltip`,
-                source: `${i + 1}:${j+1} ${loremIpsum}`,
-                translation: `${i + 1}:${j+1}` + " Translated " + loremIpsum,
+                source: `${i + 1}:${j + 1} ${loremIpsum}`,
+                translation: `${i + 1}:${j + 1}` + " Translated " + loremIpsum,
+                // cSpell: disable
+                editor: "Pavlo Filipchuk",
+                // cSpell: enable
             };
         }
         files[i] = {
-            fileSize,
             id: i,
-            modified: dateStr,
             name: `achievements ${i + 1}`,
             resources,
+            modified: dateStr,
+            fileSize,
             resxCount: M,
             translatedCount: 115,
         };
     }
-// tslint:disable-next-line: no-console
+    // tslint:disable-next-line: no-console
     console.log(`Generated ${N * M} objects in ${(Date.now() - date) / 1000}s`);
     return files;
 }
