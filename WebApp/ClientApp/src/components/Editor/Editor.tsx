@@ -1,34 +1,37 @@
 import {
     CommandBar,
     DefaultFontStyles,
-    ICommandBarItemProps,
-    IStyle, ITextFieldProps,
+    ICommandBar,
+    ICommandBarItemProps, IStyle,
+    ITextFieldProps,
     ITextFieldStyles,
     Label,
     Stack,
     StackItem,
     TextField,
 } from "office-ui-fabric-react";
-import React, { Component, ReactNode } from "react";
+import React, { Component, ReactNode, RefObject } from "react";
 import { IResource } from "../../services/FileService";
 import "./Editor.css";
+import { EditorCommands } from "./EditorCommands";
 
 interface IProps {
     resource: IResource;
     onEdit?: (translation: string) => void;
 }
 
-export class Editor extends Component<IProps> {
+interface IState {
+    enableUndo: boolean;
+    enableRedo: boolean;
+}
 
-    public commands: ICommandBarItemProps[] = [];
+export class Editor extends Component<IProps, IState> {
 
-    public state: {
-        translation: string,
-    };
+    private commands: ICommandBarItemProps[];
 
     private editHistory: {
         [resourceKey: string]: {
-            values: [],
+            values: string[],
             currentIndex: number,
         },
     };
@@ -36,29 +39,14 @@ export class Editor extends Component<IProps> {
     public constructor(props: IProps) {
         super(props);
         this.state = {
-            translation: "",
+            enableRedo: false,
+            enableUndo: false,
         };
-
-        this.commands = [{
-            key: "undo",
-            text: "Undo",
-            iconProps: {
-                iconName: "Undo",
-            },
-            onClick: this.undoClick,
-        }, {
-            key: "redo",
-            text: "Redo",
-            iconProps: {
-                iconName: "Redo",
-                title: "Redo",
-            },
-        }];
-
         this.editHistory = {};
+        this.commands = [];
     }
 
-    public render(): ReactNode {
+    public render(): JSX.Element {
         const renderLabel = (props?: ITextFieldProps) => {
             return <Label styles={{ root: DefaultFontStyles.xLarge }}>{props!.label}</Label>;
         };
@@ -74,6 +62,8 @@ export class Editor extends Component<IProps> {
             root: { ...flexStyle, paddingBottom: "1em" },
             wrapper: flexStyle,
         };
+
+        const history = this.editHistory[this.props.resource.key];
 
         return (
             <Stack padding="0.2em 1em" verticalFill={true} grow={1}>
@@ -92,7 +82,12 @@ export class Editor extends Component<IProps> {
                 </StackItem>
                 <StackItem grow={3}>
                     <Stack verticalFill={true}>
-                        <CommandBar items={this.commands} />
+                        <EditorCommands
+                            undoDisabled={!history || history.currentIndex === 0}
+                            redoDisabled={!history || history.currentIndex === history.values.length - 1}
+                            onUndo={this.undoClick}
+                            onRedo={this.redoClick}
+                        />
                         <TextField
                             onKeyDown={this.onKeyDown}
                             styles={styles}
@@ -110,17 +105,49 @@ export class Editor extends Component<IProps> {
     }
 
     private onChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+        if (!this.editHistory[this.props.resource.key]) {
+            this.editHistory[this.props.resource.key] = {
+                values: [this.props.resource.translation!],
+                currentIndex: 0,
+            };
+        }
+        const history = this.editHistory[this.props.resource.key];
+        history.currentIndex++;
+        history.values.splice(history.currentIndex, history.values.length - history.currentIndex);
+        history.values.push(newValue!);
+
+        this.setState({
+            enableUndo: true,
+        });
+
         if (this.props.onEdit) {
             this.props.onEdit(newValue!);
         }
     }
 
     private undoClick = () => {
+        const history = this.editHistory[this.props.resource.key];
+        if (history.currentIndex === 0) {
+            return;
+        }
 
+        history.currentIndex--;
+        this.props.resource.translation = history.values[history.currentIndex];
+        this.setState({
+            enableUndo: history.currentIndex !== 0,
+        });
     }
 
     private redoClick = () => {
-
+        const history = this.editHistory[this.props.resource.key];
+        if (history.currentIndex === history.values.length - 1) {
+            return;
+        }
+        history.currentIndex++;
+        this.props.resource.translation = history.values[history.currentIndex];
+        this.setState({
+            enableRedo: history.currentIndex !== history.values.length - 1,
+        });
     }
 
     private onKeyDown = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -135,4 +162,5 @@ export class Editor extends Component<IProps> {
             }
         }
     }
+
 }

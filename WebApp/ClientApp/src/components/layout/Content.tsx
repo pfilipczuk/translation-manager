@@ -34,7 +34,7 @@ export class Content extends Component<any, IState> {
         return (
             <Stack horizontal={true} grow={1}>
                     <Selection files={this.state.files} onSelectionChange={this.onSelectionChange} />
-                    <Editor onEdit={this.onTranslationChange} resource={this.state.selectedResource}/>
+                    <Editor resource={this.state.selectedResource} onEdit={this.onTranslationChange} />
             </Stack>);
     }
 
@@ -49,5 +49,6 @@ export class Content extends Component<any, IState> {
 
     private onTranslationChange = (translation: string) => {
         this.state.selectedResource.translation = translation;
+        this.setState({});
     }
 }

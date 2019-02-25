@@ -15,8 +15,8 @@ import Ribbon from "./Ribbon";
 
 interface IProps {
     files: IFile[];
-    onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
     filterText?: string;
+    onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
 }
 
 export class Files extends Component<IProps> {

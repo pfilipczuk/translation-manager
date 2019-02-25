@@ -1,13 +1,16 @@
 import {
-    DefaultPalette,
-    DetailsList, DetailsListLayoutMode,
+    ConstrainMode,
+    DefaultPalette, DetailsList,
+    DetailsListLayoutMode,
     getInitials,
     IColumn,
+    ISelection,
     Persona,
     PersonaInitialsColor,
     PersonaSize,
     ScrollablePane,
     ScrollbarVisibility,
+    Selection,
     SelectionMode,
     Stack,
     StackItem,
@@ -15,13 +18,19 @@ import {
 import React, { Component } from "react";
 import { IResource } from "../../services/FileService";
 import Ribbon from "./Ribbon";
+
 interface IProps {
     resources: IResource[];
-    onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
     filterText?: string;
+    onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
 }
 
-export class Resources extends Component<IProps> {
+interface IState {
+    selectedResource: IResource;
+}
+
+export class Resources extends Component<IProps, IState> {
+
     private columns: IColumn[] = [{
         key: "name",
         name: "Name",
@@ -42,6 +51,10 @@ export class Resources extends Component<IProps> {
         super(props);
         this.filterResources = this.filterResources.bind(this);
         this.onRenderResource = this.onRenderResource.bind(this);
+
+        this.state = {
+            selectedResource: this.props.resources[0],
+        };
     }
 
     public render(): JSX.Element {
@@ -55,12 +68,13 @@ export class Resources extends Component<IProps> {
                 <StackItem grow={1} styles={{ root: { position: "relative" } }}>
                     <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>
                         <DetailsList
+                            constrainMode={ConstrainMode.horizontalConstrained}
                             layoutMode={DetailsListLayoutMode.justified}
                             selectionMode={SelectionMode.none}
                             selectionPreservedOnEmptyClick={true}
                             items={resources}
                             columns={this.columns}
-                            onActiveItemChanged={this.props.onActiveItemChanged}
+                            onActiveItemChanged={this.onSelectionChange}
                         />
                     </ScrollablePane>
                 </StackItem>
@@ -93,5 +107,14 @@ export class Resources extends Component<IProps> {
             });
         }
         return this.props.resources;
+    }
+
+    private onSelectionChange = (resource?: IResource): void => {
+        this.setState({
+            selectedResource: resource!,
+        });
+        if (this.props.onActiveItemChanged) {
+            this.props.onActiveItemChanged(resource);
+        }
     }
 }
