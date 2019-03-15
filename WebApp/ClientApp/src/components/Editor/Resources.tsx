@@ -61,7 +61,7 @@ export class Resources extends Component<IProps, IState> {
         const resources = this.filterResources();
 
         return (
-            <Stack grow={1} horizontal={true}>
+            <Stack grow={1} horizontal={true} styles={{ root: { height: "calc( 100vh - 7em - 32px )" } }}>
                 <Ribbon>
                     Resources
                 </Ribbon>
@@ -82,7 +82,7 @@ export class Resources extends Component<IProps, IState> {
         );
     }
 
-    private onRenderResource(resource: IResource) {
+    private onRenderResource(resource: IResource, index?: number, column?: IColumn) {
         return (
             <Persona
                 imageInitials={getInitials(resource.editor, false)}

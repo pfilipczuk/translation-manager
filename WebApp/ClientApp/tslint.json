@@ -11,7 +11,7 @@
         "max-line-length": {
             "options": {
                 "limit": 140,
-                "ignore-pattern": "^\\s*<(\\w+)>.*<\/\\1>$"
+                "ignore-pattern": "^\\s*<(\\w+)>.*<\/\\1>$ |^\\s*<(\\w+) (\\w+=\\S+ )*\/>$"
             }
         }
     },

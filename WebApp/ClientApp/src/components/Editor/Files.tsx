@@ -53,7 +53,7 @@ export class Files extends Component<IProps> {
         const files = this.filterFiles();
 
         return (
-            <Stack grow={1} horizontal={true}>
+            <Stack grow={1} horizontal={true} styles={{ root: { height: "calc( 100vh - 7em - 32px )" } }}>
                 <Ribbon>
                     Files
                 </Ribbon>

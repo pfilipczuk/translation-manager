@@ -19,7 +19,7 @@ export class Content extends Component<any, IState> {
         this.state = {
             files: [],
             selectedFile: { id: 0, name: "", resources: [], modified: "", fileSize: 0, resxCount: 0, translatedCount: 0 },
-            selectedResource: { key: "", source: "", translation: "", editor: ""},
+            selectedResource: { key: "", source: "", translation: "", editor: "" },
         };
     }
 
@@ -31,11 +31,19 @@ export class Content extends Component<any, IState> {
     }
 
     public render(): JSX.Element {
+        const { files, selectedResource } = this.state;
         return (
-            <Stack horizontal={true} grow={1}>
-                    <Selection files={this.state.files} onSelectionChange={this.onSelectionChange} />
-                    <Editor resource={this.state.selectedResource} onEdit={this.onTranslationChange} />
-            </Stack>);
+            <div className="ms-Grid" dir="ltr">
+                <div className="ms-Grid-row">
+                    <div className="ms-Grid-col ms-sm12 ms-xl6">
+                        <Selection files={files} onSelectionChange={this.onSelectionChange} />
+                    </div>
+                    <div className="ms-Grid-col ms-sm12 ms-xl6" style={{height: "calc( 100vh - 7em )"}}>
+                        <Editor resource={selectedResource} onEdit={this.onTranslationChange} />
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     private onSelectionChange = (file: IFile, resource: IResource) => {
@@ -48,7 +56,7 @@ export class Content extends Component<any, IState> {
     }
 
     private onTranslationChange = (translation: string) => {
-        this.state.selectedResource.translation = translation;
-        this.setState({});
+        const { selectedResource } = this.state;
+        selectedResource.translation = translation;
     }
 }

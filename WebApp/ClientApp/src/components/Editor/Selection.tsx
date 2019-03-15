@@ -35,13 +35,21 @@ export class Selection extends Component<IProps, IState> {
         const resources = this.state.selectedFile ? this.state.selectedFile.resources : [];
 
         return (
-            <Stack verticalFill={true} className="selection" grow={1}>
-                <SearchBox underlined={true} placeholder="Search" onChange={this.onSearch} />
-                <Stack verticalFill={true} horizontal={true}>
-                    <Files filterText={this.state.filterText} files={this.props.files} onActiveItemChanged={this.activeFileChanged} />
-                    <Resources filterText={this.state.filterText} onActiveItemChanged={this.activeResourceChanged} resources={resources} />
-                </Stack>
-            </Stack>);
+            <div className="ms-Grid" dir="ltr">
+                <div className="ms-Grid-row">
+                    <div className="ms-Grid-col ms-sm12">
+                        <SearchBox underlined={true} placeholder="Search" onChange={this.onSearch} />
+                    </div>
+                </div>
+                <div className="ms-Grid-row">
+                    <div className="ms-Grid-col ms-sm12 ms-xl6">
+                        <Files filterText={this.state.filterText} files={this.props.files} onActiveItemChanged={this.activeFileChanged} />
+                    </div>
+                    <div className="ms-Grid-col ms-sm12 ms-xl6">
+                        <Resources filterText={this.state.filterText} onActiveItemChanged={this.activeResourceChanged} resources={resources} />
+                    </div>
+                </div>
+            </div>);
     }
 
     private activeFileChanged(item?: IFile, index?: number, ev?: React.FocusEvent<HTMLElement>): void {
