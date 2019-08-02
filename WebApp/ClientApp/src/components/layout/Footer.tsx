@@ -34,7 +34,7 @@ export class Footer extends Component<{}, IState> {
 
         return (
             <Stack grow={1} verticalAlign="center" horizontalAlign="center" styles={{root: styles}}>
-                <span className="ms-font-m">Translation Manager 2019 - made by Pavlo Filipchuk</span>
+                <span className="ms-font-m">Translation Manager 2019 - Pavlo Filipchuk</span>
             </Stack>);
     }
 }

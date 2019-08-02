@@ -3,31 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "jquery": "3.3.1",
-    "memoize-one": "^5.0.0",
-    "node-sass": "^4.11.0",
-    "office-ui-fabric-react": "^6.140.0",
-    "react": "^16.8.1",
-    "react-dom": "^16.8.1",
-    "react-router-bootstrap": "^0.24.4",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5",
-    "rimraf": "^2.6.3"
+    "memoize-one": "^5.0.5",
+    "node-sass": "^4.12.0",
+    "office-ui-fabric-react": "^7.19.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-bootstrap": "^0.25.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.0",
-    "@types/memoize-one": "^4.1.0",
-    "@types/node": "^10.12.24",
-    "@types/react": "^16.8.2",
-    "@types/react-dom": "^16.8.0",
-    "@types/react-router-dom": "^4.3.1",
-    "@types/webpack-env": "^1.13.7",
-    "ajv": "^6.0.0",
+    "@types/jest": "^24.0.16",
+    "@types/memoize-one": "^4.1.1",
+    "@types/node": "^12.6.9",
+    "@types/react": "^16.8.24",
+    "@types/react-dom": "^16.8.5",
+    "@types/react-router-dom": "^4.3.4",
+    "@types/webpack-env": "^1.14.0",
     "cross-env": "^5.2.0",
-    "tslint": "^5.12.1",
-    "tslint-react": "^3.6.0",
-    "typescript": "^3.3.3",
-    "typescript-tslint-plugin": "^0.3.1"
+    "eslint": "^5.16.0",
+    "typescript": "^3.5.3"
   },
   "eslintConfig": {
     "extends": "react-app"

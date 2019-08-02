@@ -16,7 +16,7 @@ import {
     StackItem,
 } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { IResource } from "../../services/FileService";
+import { IResource } from "../../services/fileService";
 import Ribbon from "./Ribbon";
 
 interface IProps {

@@ -11,7 +11,7 @@ import {
     TextField,
 } from "office-ui-fabric-react";
 import React, { Component, ReactNode, RefObject } from "react";
-import { IResource } from "../../services/FileService";
+import { IResource } from "../../services/fileService";
 import "./Editor.css";
 import { EditorCommands } from "./EditorCommands";
 

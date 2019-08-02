@@ -10,7 +10,7 @@ import {
 } from "office-ui-fabric-react";
 import { DefaultPalette } from "office-ui-fabric-react";
 import React, { Component, ReactNode } from "react";
-import { IFile } from "../../services/FileService";
+import { IFile } from "../../services/fileService";
 import Ribbon from "./Ribbon";
 
 interface IProps {

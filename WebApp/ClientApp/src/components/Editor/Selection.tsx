@@ -1,6 +1,6 @@
 import { SearchBox, Stack } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { IFile, IResource } from "../../services/FileService";
+import { IFile, IResource } from "../../services/fileService";
 import { Files } from "./Files";
 import { Resources } from "./Resources";
 import "./Selection.css";
@@ -64,9 +64,9 @@ export class Selection extends Component<IProps, IState> {
         }
     }
 
-    private onSearch(text: string): void {
+    private onSearch(event?: React.ChangeEvent<HTMLInputElement>, text?: string): void {
         this.setState({
-            filterText: text,
+            filterText: text!,
         });
     }
 }

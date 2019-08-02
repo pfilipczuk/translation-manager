@@ -7,5 +7,11 @@
         "**/.DS_Store": true,
         ".vs": true
     },
-    "html-css-class-completion.includeGlobPattern": "**/*.{css,html}"
+    "html-css-class-completion.includeGlobPattern": "**/*.{css,html}",
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        { "language": "typescript", "autoFix": true },
+        { "language": "typescriptreact", "autoFix": true }
+    ]
 }

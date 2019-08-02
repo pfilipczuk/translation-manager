@@ -17,10 +17,6 @@ interface IProps {
 export class App extends Component<IProps> {
     public static displayName = App.name;
 
-    constructor(props: IProps) {
-        super(props);
-    }
-
     public render(): JSX.Element {
         const styles = { backgroundColor: this.props.theme!.palette.white };
 

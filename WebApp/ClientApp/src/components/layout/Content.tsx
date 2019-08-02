@@ -1,6 +1,6 @@
 import { Stack } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { getFiles, IFile, IResource } from "../../services/FileService";
+import { getFiles, IFile, IResource } from "../../services/fileService";
 import { Editor } from "../Editor/Editor";
 import { Selection } from "../Editor/Selection";
 
