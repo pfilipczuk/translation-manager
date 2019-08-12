@@ -1,23 +1,23 @@
 import {
+    ConstrainMode,
     DetailsList,
     DetailsListLayoutMode,
     IColumn,
+    IDetailsHeaderProps,
+    IRenderFunction,
+    IStyle,
+    ITheme,
     ScrollablePane,
     SelectionMode,
     Stack,
     StackItem,
-    ConstrainMode,
-    IDetailsHeaderProps,
-    IRenderFunction,
     Sticky,
     StickyPositionType,
-    IStyle,
-    ITheme,
     styled,
 } from "office-ui-fabric-react";
 import { DefaultPalette } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { IFile, IResource } from "../../services/FileService";
+import { IFile, IResource } from "../../services/fileService";
 
 interface IProps {
     theme?: ITheme;

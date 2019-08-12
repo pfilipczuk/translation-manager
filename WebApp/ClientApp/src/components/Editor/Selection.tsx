@@ -1,15 +1,9 @@
 import { SearchBox, Stack } from "office-ui-fabric-react";
 import React, { Component } from "react";
-<<<<<<< HEAD
-import { IFile, IResource } from "../../services/FileService";
+import { IFile, IResource } from "../../services/fileService";
 import { FileList } from "./FileList";
 import { ResourceList } from "./ResourceList";
-import { Ribbon } from "./Ribbon";
-=======
-import { IFile, IResource } from "../../services/fileService";
-import { Files } from "./Files";
-import { Resources } from "./Resources";
->>>>>>> 75184d3a5fd3d626d60149e33406dfa560ad8ac4
+import { Ribbon} from "./Ribbon";
 import "./Selection.css";
 
 interface IProps {
@@ -47,7 +41,7 @@ export class Selection extends Component<IProps, IState> {
         super(props);
         this.changeActiveFile = this.changeActiveFile.bind(this);
         this.changeActiveResource = this.changeActiveResource.bind(this);
-        this.changeFilter = this.changeFilter.bind(this);
+        this.onSearch = this.onSearch.bind(this);
 
         this.state = {
             filter: "",
@@ -60,7 +54,7 @@ export class Selection extends Component<IProps, IState> {
             <div className="ms-Grid" dir="ltr">
                 <div className="ms-Grid-row">
                     <div className="ms-Grid-col ms-sm12">
-                        <SearchBox underlined={true} placeholder="Search" onChange={this.changeFilter} />
+                        <SearchBox underlined={true} placeholder="Search" onChange={this.onSearch} />
                     </div>
                 </div>
                 <div className="ms-Grid-row">
@@ -92,15 +86,9 @@ export class Selection extends Component<IProps, IState> {
         }
     }
 
-<<<<<<< HEAD
-    private changeFilter(filter: string): void {
-        this.setState({
-            filter,
-=======
     private onSearch(event?: React.ChangeEvent<HTMLInputElement>, text?: string): void {
         this.setState({
-            filterText: text!,
->>>>>>> 75184d3a5fd3d626d60149e33406dfa560ad8ac4
+            filter: text!,
         });
     }
 
