@@ -1,9 +1,15 @@
 import { SearchBox, Stack } from "office-ui-fabric-react";
 import React, { Component } from "react";
+<<<<<<< HEAD
 import { IFile, IResource } from "../../services/FileService";
 import { FileList } from "./FileList";
 import { ResourceList } from "./ResourceList";
 import { Ribbon } from "./Ribbon";
+=======
+import { IFile, IResource } from "../../services/fileService";
+import { Files } from "./Files";
+import { Resources } from "./Resources";
+>>>>>>> 75184d3a5fd3d626d60149e33406dfa560ad8ac4
 import "./Selection.css";
 
 interface IProps {
@@ -86,9 +92,15 @@ export class Selection extends Component<IProps, IState> {
         }
     }
 
+<<<<<<< HEAD
     private changeFilter(filter: string): void {
         this.setState({
             filter,
+=======
+    private onSearch(event?: React.ChangeEvent<HTMLInputElement>, text?: string): void {
+        this.setState({
+            filterText: text!,
+>>>>>>> 75184d3a5fd3d626d60149e33406dfa560ad8ac4
         });
     }
 

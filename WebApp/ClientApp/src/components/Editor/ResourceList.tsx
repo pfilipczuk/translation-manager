@@ -16,7 +16,12 @@ import {
     DetailsRow,
 } from "office-ui-fabric-react";
 import React, { Component } from "react";
+<<<<<<< HEAD:WebApp/ClientApp/src/components/Editor/ResourceList.tsx
 import { IResource } from "../../services/FileService";
+=======
+import { IResource } from "../../services/fileService";
+import Ribbon from "./Ribbon";
+>>>>>>> 75184d3a5fd3d626d60149e33406dfa560ad8ac4:WebApp/ClientApp/src/components/Editor/Resources.tsx
 
 interface IProps {
     resources: IResource[];
