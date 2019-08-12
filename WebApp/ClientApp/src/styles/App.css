@@ -1,21 +1,7 @@
-.app {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.header, .footer {
-    display: flex;
-    flex-direction: row;
-    flex-basis: 4em;
+.header {
+    height: 4em;
 }
 
 .footer {
-    flex-basis: 3em;
-}
-
-.body {
-    display: flex;
-    flex-direction: row;
-    flex: 1 1;
+    height: 3em;
 }

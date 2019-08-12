@@ -33,16 +33,14 @@ export class Content extends Component<any, IState> {
     public render(): JSX.Element {
         const { files, selectedResource } = this.state;
         return (
-            <div className="ms-Grid" dir="ltr">
-                <div className="ms-Grid-row">
-                    <div className="ms-Grid-col ms-sm12 ms-xl6">
-                        <Selection files={files} onSelectionChange={this.onSelectionChange} />
-                    </div>
-                    <div className="ms-Grid-col ms-sm12 ms-xl6" style={{height: "calc( 100vh - 7em )"}}>
-                        <Editor resource={selectedResource} onEdit={this.onTranslationChange} />
-                    </div>
+            <>
+                <div className="ms-Grid-col ms-sm12 ms-xl6">
+                    <Selection files={files} onSelectionChange={this.onSelectionChange} />
                 </div>
-            </div>
+                <div className="ms-Grid-col ms-sm12 ms-xl6" style={{ height: "calc( 100vh - 7em )" }}>
+                    <Editor resource={selectedResource} onEdit={this.onTranslationChange} />
+                </div>
+            </>
         );
     }
 

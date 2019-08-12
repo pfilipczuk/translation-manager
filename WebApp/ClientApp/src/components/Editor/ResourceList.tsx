@@ -4,24 +4,22 @@ import {
     DetailsListLayoutMode,
     getInitials,
     IColumn,
-    ISelection,
     Persona,
     PersonaInitialsColor,
     PersonaSize,
     ScrollablePane,
     ScrollbarVisibility,
-    Selection,
     SelectionMode,
     Stack,
     StackItem,
+    IDetailsRowProps,
+    DetailsRow,
 } from "office-ui-fabric-react";
 import React, { Component } from "react";
 import { IResource } from "../../services/FileService";
-import Ribbon from "./Ribbon";
 
 interface IProps {
     resources: IResource[];
-    filterText?: string;
     onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
 }
 
@@ -29,7 +27,7 @@ interface IState {
     selectedResource: IResource;
 }
 
-export class Resources extends Component<IProps, IState> {
+export class ResourceList extends Component<IProps, IState> {
 
     private columns: IColumn[] = [{
         key: "name",
@@ -38,7 +36,7 @@ export class Resources extends Component<IProps, IState> {
         minWidth: 50,
         maxWidth: 300,
         isResizable: true,
-        onRender: this.onRenderResource,
+        onRender: this.onRenderResource.bind(this),
     }, {
         key: "editor",
         name: "Modified By",
@@ -49,7 +47,6 @@ export class Resources extends Component<IProps, IState> {
 
     public constructor(props: IProps) {
         super(props);
-        this.filterResources = this.filterResources.bind(this);
         this.onRenderResource = this.onRenderResource.bind(this);
 
         this.state = {
@@ -58,13 +55,9 @@ export class Resources extends Component<IProps, IState> {
     }
 
     public render(): JSX.Element {
-        const resources = this.filterResources();
 
         return (
-            <Stack grow={1} horizontal={true} styles={{ root: { height: "calc( 100vh - 7em - 32px )" } }}>
-                <Ribbon>
-                    Resources
-                </Ribbon>
+            <Stack grow={1} horizontal={true} styles={{ root: { height: "calc( 100vh - 7rem - 32px )" } }}>
                 <StackItem grow={1} styles={{ root: { position: "relative" } }}>
                     <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>
                         <DetailsList
@@ -72,7 +65,7 @@ export class Resources extends Component<IProps, IState> {
                             layoutMode={DetailsListLayoutMode.justified}
                             selectionMode={SelectionMode.none}
                             selectionPreservedOnEmptyClick={true}
-                            items={resources}
+                            items={this.props.resources}
                             columns={this.columns}
                             onActiveItemChanged={this.onSelectionChange}
                         />
@@ -90,23 +83,8 @@ export class Resources extends Component<IProps, IState> {
                 coinProps={{ styles: { initials: { color: DefaultPalette.white } } }}
                 size={PersonaSize.size40}
                 text={resource.key}
-                secondaryText={resource.translation || resource.source}
+                secondaryText={this.props.resources[index!].translation || resource.source}
             />);
-    }
-
-    private filterResources(): IResource[] {
-        if (this.props.filterText) {
-            return this.props.resources.filter((resource) => {
-                if (resource.source.indexOf(this.props.filterText!) !== -1) {
-                    return true;
-                }
-                if (resource.translation && resource.translation.indexOf(this.props.filterText!) !== -1) {
-                    return true;
-                }
-                return false;
-            });
-        }
-        return this.props.resources;
     }
 
     private onSelectionChange = (resource?: IResource): void => {

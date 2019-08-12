@@ -1,13 +1,7 @@
-import { Fabric, IStyleFunctionOrObject, ITheme, mergeStyles, styled } from "office-ui-fabric-react";
+import { Fabric, IStyle, IStyleFunctionOrObject, ITheme, mergeStyles, styled } from "office-ui-fabric-react";
 import React, { Component } from "react";
 import { Content, Footer, Header } from "./components/layout/index";
 import "./styles/App.css";
-
-const flex = mergeStyles({
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "100vh",
-});
 
 interface IProps {
     theme?: ITheme;
@@ -17,22 +11,18 @@ interface IProps {
 export class App extends Component<IProps> {
     public static displayName = App.name;
 
-    constructor(props: IProps) {
-        super(props);
-    }
-
     public render(): JSX.Element {
         const styles = { backgroundColor: this.props.theme!.palette.white };
 
         return (
-            <Fabric className={flex}>
-                <div className="header">
+            <Fabric className="ms-Grid" dir="ltr" style={styles}>
+                <div className="ms-Grid-row header">
                     <Header />
                 </div>
-                <div className="body" style={styles}>
-                        <Content />
+                <div className="ms-Grid-row body">
+                    <Content />
                 </div>
-                <div className="footer">
+                <div className="ms-Grid-row footer">
                     <Footer />
                 </div>
             </Fabric>

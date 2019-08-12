@@ -4,13 +4,10 @@ import React, { Component, Props, ReactNode } from "react";
 interface IProps {
     theme?: ITheme;
     styles?: IStyleFunctionOrObject<any, any>;
-    children?: ReactNode;
+    text: string;
 }
 
-export class Ribbon extends Component<IProps> {
-    public constructor(props: IProps) {
-        super(props);
-    }
+class RibbonBase extends Component<IProps> {
 
     public render(): JSX.Element {
         const styles: Partial<ILabelStyles> = {
@@ -23,10 +20,10 @@ export class Ribbon extends Component<IProps> {
 
         return (
             <Label styles={styles}>
-                {this.props.children}
+                {this.props.text}
             </Label>
         );
     }
 }
 
-export default styled(Ribbon, {});
+export const Ribbon = styled(RibbonBase, {});
