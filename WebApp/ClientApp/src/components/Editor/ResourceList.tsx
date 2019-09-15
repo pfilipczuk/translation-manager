@@ -14,18 +14,18 @@ import {
     StackItem,
 } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { IResource } from "../../services/fileService";
+import { Resource } from "../../services/fileService";
 
-interface IProps {
-    resources: IResource[];
+interface Props {
+    resources: Resource[];
     onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
 }
 
-interface IState {
-    selectedResource: IResource;
+interface State {
+    selectedResource: Resource;
 }
 
-export class ResourceList extends Component<IProps, IState> {
+export class ResourceList extends Component<Props, State> {
 
     private columns: IColumn[] = [{
         key: "name",
@@ -43,7 +43,7 @@ export class ResourceList extends Component<IProps, IState> {
         maxWidth: 150,
     }];
 
-    public constructor(props: IProps) {
+    public constructor(props: Props) {
         super(props);
         this.onRenderResource = this.onRenderResource.bind(this);
 
@@ -73,7 +73,7 @@ export class ResourceList extends Component<IProps, IState> {
         );
     }
 
-    private onRenderResource(resource: IResource, index?: number, column?: IColumn) {
+    private onRenderResource(resource: Resource, index?: number, column?: IColumn): JSX.Element {
         return (
             <Persona
                 imageInitials={getInitials(resource.editor, false)}
@@ -85,7 +85,7 @@ export class ResourceList extends Component<IProps, IState> {
             />);
     }
 
-    private onSelectionChange = (resource?: IResource): void => {
+    private onSelectionChange = (resource?: Resource): void => {
         this.setState({
             selectedResource: resource!,
         });

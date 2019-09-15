@@ -2,21 +2,21 @@ import { DefaultPalette, IPersonaStyles, ITheme, Persona, PersonaSize } from "of
 import React, { Component, Props } from "react";
 import { LoginButton } from "./LoginButton";
 
-interface ISuccess {
+interface Success {
     userName?: string;
     iconUrl?: string;
 }
 
-interface IState {
+interface State {
     theme: ITheme;
 }
 
 export class User extends Component {
 
     public state: {
-        logged: boolean,
-        userName?: string,
-        iconUrl?: string,
+        logged: boolean;
+        userName?: string;
+        iconUrl?: string;
     };
 
     public constructor(props: Props<{}>) {
@@ -29,12 +29,12 @@ export class User extends Component {
         };
     }
 
-    public log(message: any | string): void {
+    public log(message: unknown | string): void {
         // tslint:disable-next-line: no-console
         console.log(message);
     }
 
-    public onSuccess(success: ISuccess): void {
+    public onSuccess(success: Success): void {
         this.log("login success");
         this.setState({
             iconUrl: success.iconUrl,

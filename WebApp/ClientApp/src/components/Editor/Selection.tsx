@@ -1,23 +1,27 @@
 import { SearchBox, Stack } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { IFile, IResource } from "../../services/fileService";
+import { File, Resource } from "../../services/fileService";
 import { FileList } from "./FileList";
 import { ResourceList } from "./ResourceList";
-import { Ribbon} from "./Ribbon";
+import { Ribbon } from "./Ribbon";
 import "./Selection.css";
+import scrollToComponent from "react-scroll-to-component";
 
-interface IProps {
-    onSelectionChange?: (file: IFile, resource: IResource) => void;
-    files: IFile[];
+interface Props {
+    onSelectionChange?: (file: File, resource: Resource) => void;
+    files: File[];
 }
 
-interface IState {
-    selectedFile: IFile;
+interface State {
+    selectedFile: File;
     filter: string;
 }
 
-export class Selection extends Component<IProps, IState> {
-    public get files(): IFile[] {
+export class Selection extends Component<Props, State> {
+    private Files?: HTMLDivElement | null;
+    private Resources?: HTMLDivElement | null;
+
+    public get files(): File[] {
         const { files } = this.props;
         const { filter } = this.state;
         if (!filter) {
@@ -26,7 +30,7 @@ export class Selection extends Component<IProps, IState> {
         return files.filter((file) => file.resources.some(this.getFilterCondition(filter)));
     }
 
-    public get resources(): IResource[] {
+    public get resources(): Resource[] {
         const { selectedFile, filter } = this.state;
         if (!selectedFile) {
             return [];
@@ -37,7 +41,7 @@ export class Selection extends Component<IProps, IState> {
         return selectedFile.resources.filter(this.getFilterCondition(filter));
     }
 
-    public constructor(props: IProps) {
+    public constructor(props: Props) {
         super(props);
         this.changeActiveFile = this.changeActiveFile.bind(this);
         this.changeActiveResource = this.changeActiveResource.bind(this);
@@ -58,13 +62,13 @@ export class Selection extends Component<IProps, IState> {
                     </div>
                 </div>
                 <div className="ms-Grid-row">
-                    <div className="ms-Grid-col ms-sm12 ms-xl6">
+                    <div ref={(div) => { this.Files = div }} className="ms-Grid-col ms-sm12 ms-xl6">
                         <Stack horizontal={true}>
                             <Ribbon text="Files" />
                             <FileList files={this.files} onActiveItemChanged={this.changeActiveFile} />
                         </Stack>
                     </div>
-                    <div className="ms-Grid-col ms-sm12 ms-xl6">
+                    <div ref={(div) => { this.Resources = div }} className="ms-Grid-col ms-sm12 ms-xl6">
                         <Stack horizontal={true}>
                             <Ribbon text="Resources" />
                             <ResourceList resources={this.resources} onActiveItemChanged={this.changeActiveResource} />
@@ -74,13 +78,14 @@ export class Selection extends Component<IProps, IState> {
             </div>);
     }
 
-    private changeActiveFile(item: IFile, index?: number, event?: React.FocusEvent<HTMLElement>): void {
+    private changeActiveFile(item: File, index?: number, event?: React.FocusEvent<HTMLElement>): void {
         this.setState({
             selectedFile: item,
         });
+        scrollToComponent(this.Resources);
     }
 
-    private changeActiveResource(item: IResource, index?: number, event?: React.FocusEvent<HTMLElement>): void {
+    private changeActiveResource(item: Resource, index?: number, event?: React.FocusEvent<HTMLElement>): void {
         if (this.props.onSelectionChange) {
             this.props.onSelectionChange(this.state.selectedFile, item);
         }
@@ -92,8 +97,8 @@ export class Selection extends Component<IProps, IState> {
         });
     }
 
-    private getFilterCondition(filter: string): (resource: IResource) => boolean {
-        return (resource: IResource) => {
+    private getFilterCondition(filter: string): (resource: Resource) => boolean {
+        return (resource: Resource) => {
             if (resource.source.indexOf(filter) >= 0) {
                 return true;
             }

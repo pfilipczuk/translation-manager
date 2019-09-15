@@ -1,7 +1,5 @@
 import {
-    CommandBar,
     DefaultFontStyles,
-    ICommandBar,
     ICommandBarItemProps, IStyle,
     ITextFieldProps,
     ITextFieldStyles,
@@ -10,33 +8,33 @@ import {
     StackItem,
     TextField,
 } from "office-ui-fabric-react";
-import React, { Component, ReactNode, RefObject } from "react";
-import { IResource } from "../../services/fileService";
+import React, { Component } from "react";
+import { Resource } from "../../services/fileService";
 import "./Editor.css";
 import { EditorCommands } from "./EditorCommands";
 
-interface IProps {
-    resource: IResource;
+interface Props {
+    resource: Resource;
     onEdit?: (translation: string) => void;
 }
 
-interface IState {
+interface State {
     enableUndo: boolean;
     enableRedo: boolean;
 }
 
-export class Editor extends Component<IProps, IState> {
+export class Editor extends Component<Props, State> {
 
     private commands: ICommandBarItemProps[];
 
     private editHistory: {
         [resourceKey: string]: {
-            values: string[],
-            currentIndex: number,
-        },
+            values: string[];
+            currentIndex: number;
+        };
     };
 
-    public constructor(props: IProps) {
+    public constructor(props: Props) {
         super(props);
         this.state = {
             enableRedo: false,
@@ -47,8 +45,8 @@ export class Editor extends Component<IProps, IState> {
     }
 
     public render(): JSX.Element {
-        const renderLabel = (props?: ITextFieldProps) => {
-            return <Label styles={{ root: DefaultFontStyles.xLarge }}>{props!.label}</Label>;
+        const renderLabel = (props?: ITextFieldProps): JSX.Element => {
+            return <Label styles={{ root: DefaultFontStyles.xLarge }}>{props && props.label}</Label>;
         };
         const flexStyle: IStyle = {
             display: "flex",
@@ -66,7 +64,7 @@ export class Editor extends Component<IProps, IState> {
         const history = this.editHistory[this.props.resource.key];
 
         return (
-            <Stack padding="0.2em 1em" verticalFill={true} grow={1}>
+            <Stack id="Editor" padding="0.2em 1em" verticalFill={true} grow={1}>
                 <StackItem grow={1} disableShrink={true} align="stretch">
                     <Stack verticalFill={true}>
                         <TextField
@@ -104,28 +102,28 @@ export class Editor extends Component<IProps, IState> {
         );
     }
 
-    private onChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+    private onChange = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string): void => {
         if (!this.editHistory[this.props.resource.key]) {
             this.editHistory[this.props.resource.key] = {
-                values: [this.props.resource.translation!],
+                values: [this.props.resource.translation || ''],
                 currentIndex: 0,
             };
         }
         const history = this.editHistory[this.props.resource.key];
         history.currentIndex++;
         history.values.splice(history.currentIndex, history.values.length - history.currentIndex);
-        history.values.push(newValue!);
+        history.values.push(newValue || '');
 
         this.setState({
             enableUndo: true,
         });
 
         if (this.props.onEdit) {
-            this.props.onEdit(newValue!);
+            this.props.onEdit(newValue || '');
         }
     }
 
-    private undoClick = () => {
+    private undoClick = (): void => {
         const history = this.editHistory[this.props.resource.key];
         if (history.currentIndex === 0) {
             return;
@@ -138,7 +136,7 @@ export class Editor extends Component<IProps, IState> {
         });
     }
 
-    private redoClick = () => {
+    private redoClick = (): void => {
         const history = this.editHistory[this.props.resource.key];
         if (history.currentIndex === history.values.length - 1) {
             return;
@@ -150,7 +148,7 @@ export class Editor extends Component<IProps, IState> {
         });
     }
 
-    private onKeyDown = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    private onKeyDown = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         if (event.ctrlKey) {
             if (event.key === "z") {
                 event.preventDefault();

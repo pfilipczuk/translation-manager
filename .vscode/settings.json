@@ -8,10 +8,19 @@
         ".vs": true
     },
     "html-css-class-completion.includeGlobPattern": "**/*.{css,html}",
+    "eslint.workingDirectories": [
+        "./WebApp/ClientApp"
+    ],
     "eslint.validate": [
         "javascript",
         "javascriptreact",
         { "language": "typescript", "autoFix": true },
         { "language": "typescriptreact", "autoFix": true }
+    ],
+    "cSpell.words": [
+        "Interop",
+        "esnext",
+        "onstatechange",
+        "onupdatefound"
     ]
 }

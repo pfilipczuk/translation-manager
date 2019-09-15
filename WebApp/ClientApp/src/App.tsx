@@ -1,14 +1,14 @@
-import { Fabric, IStyle, IStyleFunctionOrObject, ITheme, mergeStyles, styled } from "office-ui-fabric-react";
+import { Fabric, IStyleFunctionOrObject, ITheme, styled } from "office-ui-fabric-react";
 import React, { Component } from "react";
 import { Content, Footer, Header } from "./components/layout/index";
 import "./styles/App.css";
 
-interface IProps {
+interface Props {
     theme?: ITheme;
     styles?: IStyleFunctionOrObject<any, any>;
 }
 
-export class App extends Component<IProps> {
+export class App extends Component<Props> {
     public static displayName = App.name;
 
     public render(): JSX.Element {

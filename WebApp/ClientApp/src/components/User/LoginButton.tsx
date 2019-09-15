@@ -1,41 +1,41 @@
 import { ActionButton, DefaultPalette, IButtonProps, IButtonStyles } from "office-ui-fabric-react";
 import React, { Component, ReactNode } from "react";
-import { ISuccess, PopupWindow } from "./PopupWindow";
+import { Success, PopupWindow } from "./PopupWindow";
 import { toQuery } from "./utils";
 
-interface IProps {
+interface Props {
     clientId: string;
     scope: string;
     redirectUri: string;
     onRequest: () => void;
-    onSuccess: (success: { userName?: string, iconUrl?: string }) => void;
+    onSuccess: (success: { userName?: string; iconUrl?: string }) => void;
     onFailure: (error: Error) => void;
 }
 
-export class LoginButton extends Component<IProps & IButtonProps> {
+export class LoginButton extends Component<Props & IButtonProps> {
     public static defaultProps = {
-        onFailure: () => { },
-        onRequest: () => { },
-        onSuccess: () => { },
+        onFailure: (): void => { },
+        onRequest: (): void => { },
+        onSuccess: (): void => { },
         scope: "user:email",
     };
 
-    constructor(props: IProps) {
+    constructor(props: Props) {
         super(props);
         this.onBtnClick = this.onBtnClick.bind(this);
 
         if (process.env.REACT_APP_DEMO) {
-            this.onBtnClick = () => {
+            this.onBtnClick = (): void => {
                 this.props.onSuccess({ userName: "Demo User", iconUrl: process.env.PUBLIC_URL + "photo.jpg" });
             };
         }
     }
 
-    public onBtnClick() {
+    public onBtnClick(): void {
         const { clientId, scope, redirectUri } = this.props;
         const search = toQuery({
-            client_id: clientId,
-            redirect_uri: redirectUri,
+            "client_id": clientId,
+            "redirect_uri": redirectUri,
             scope,
         });
         const popup = PopupWindow.open(
@@ -48,11 +48,11 @@ export class LoginButton extends Component<IProps & IButtonProps> {
         popup.then(this.onSuccess, this.onFailure);
     }
 
-    public onRequest = () => {
+    public onRequest = (): void => {
         this.props.onRequest();
     }
 
-    public onSuccess = (data: ISuccess) => {
+    public onSuccess = (data: Success): void => {
         if (!data.code) {
             return this.onFailure(new Error("'code' not found"));
         }
@@ -60,7 +60,7 @@ export class LoginButton extends Component<IProps & IButtonProps> {
         this.props.onSuccess({});
     }
 
-    public onFailure = (error: Error) => {
+    public onFailure = (error: Error): void => {
         this.props.onFailure(error);
     }
 

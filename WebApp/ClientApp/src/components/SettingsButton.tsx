@@ -12,18 +12,18 @@ import {
 import React, { Component } from "react";
 import { DarkTheme, LightTheme } from "../themes/themes";
 
-interface IState {
+interface State {
     showSettings: boolean;
     isDarkTheme: boolean;
 }
 
-interface IProps {
+interface Props {
     theme?: ITheme;
     styles?: IStyleFunctionOrObject<any, any>;
 }
 
-export class SettingsButton extends Component<IProps, IState> {
-    constructor(props: IProps) {
+export class SettingsButton extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             isDarkTheme: false,

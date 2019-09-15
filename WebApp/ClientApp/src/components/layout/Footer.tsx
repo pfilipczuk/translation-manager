@@ -1,12 +1,12 @@
-import { IStyle, ITheme, Stack, styled } from "office-ui-fabric-react";
+import { IStyle, ITheme, Stack, styled, DefaultPalette } from "office-ui-fabric-react";
 import React, { Component } from "react";
 
-interface IProps {
+interface Props {
     theme?: ITheme;
     styles?: any;
 }
 
-export class Footer extends Component<IProps> {
+export class Footer extends Component<Props> {
 
     public render(): JSX.Element {
         const styles: IStyle = {
@@ -16,8 +16,8 @@ export class Footer extends Component<IProps> {
         };
 
         return (
-            <Stack grow={1} verticalAlign="center" horizontalAlign="center" styles={{root: styles}}>
-                <span className="ms-font-m">Translation Manager 2019 - Pavlo Filipchuk</span>
+            <Stack grow={1} verticalAlign="center" horizontalAlign="center" styles={{ root: styles }}>
+                <span style={{ color: DefaultPalette.white }} className="ms-font-m">Translation Manager 2019 - Pavlo Filipchuk</span>
             </Stack>);
     }
 }

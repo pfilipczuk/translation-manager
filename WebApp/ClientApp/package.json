@@ -5,33 +5,35 @@
   "dependencies": {
     "memoize-one": "^5.0.5",
     "node-sass": "^4.12.0",
-    "office-ui-fabric-react": "^7.19.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "office-ui-fabric-react": "^7.23.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.0.1"
+    "react-scripts": "^3.1.1",
+    "react-scroll-to-component": "^1.0.2"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.16",
+    "@types/jest": "^24.0.17",
     "@types/memoize-one": "^4.1.1",
-    "@types/node": "^12.6.9",
-    "@types/react": "^16.8.24",
+    "@types/node": "^12.7.1",
+    "@types/react": "^16.9.1",
     "@types/react-dom": "^16.8.5",
     "@types/react-router-dom": "^4.3.4",
     "@types/webpack-env": "^1.14.0",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
     "cross-env": "^5.2.0",
-    "eslint": "^5.16.0",
+    "eslint": "^6.1.0",
+    "eslint-plugin-react": "^7.14.3",
     "typescript": "^3.5.3"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "scripts": {
     "start": "cross-env REACT_APP_DEMO=true react-scripts start",
     "build": "cross-env REACT_APP_DEMO=true react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.{tsx,ts}"
   },
   "browserslist": [
     ">0.2%",

@@ -8,7 +8,7 @@
 // To learn more about the benefits of this model, read https://goo.gl/KwvDNy.
 // This link also includes instructions on opting out of this behavior.
 
-const isLocalhost: boolean = Boolean(
+const isLocalhost = Boolean(
     window.location.hostname === "localhost" ||
     // [::1] is the IPv6 localhost address.
     window.location.hostname === "[::1]" ||
@@ -18,38 +18,13 @@ const isLocalhost: boolean = Boolean(
     ),
 );
 
-export default function register() {
-    if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
-        // The URL constructor is available in all browsers that support SW.
-        const publicUrl = new URL(process.env.PUBLIC_URL, window.location as unknown as string);
-        if (publicUrl.origin !== window.location.origin) {
-            // Our service worker won't work if PUBLIC_URL is on a different origin
-            // from what our page is served on. This might happen if a CDN is used to
-            // serve assets; see https://github.com/facebookincubator/create-react-app/issues/2374
-            return;
-        }
-
-        window.addEventListener("load", () => {
-            const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
-
-            if (isLocalhost) {
-                // This is running on localhost. Lets check if a service worker still exists or not.
-                checkValidServiceWorker(swUrl);
-            } else {
-                // Is not local host. Just register service worker
-                registerValidSW(swUrl);
-            }
-        });
-    }
-}
-
-function registerValidSW(swUrl: string) {
+function registerValidSW(swUrl: string): void {
     navigator.serviceWorker
         .register(swUrl)
         .then((registration) => {
-            registration.onupdatefound = () => {
+            registration.onupdatefound = (): void => {
                 const installingWorker = registration.installing;
-                installingWorker!.onstatechange = () => {
+                installingWorker!.onstatechange = (): void => {
                     if (installingWorker!.state === "installed") {
                         if (navigator.serviceWorker.controller) {
                             // At this point, the old content will have been purged and
@@ -75,7 +50,7 @@ function registerValidSW(swUrl: string) {
         });
 }
 
-function checkValidServiceWorker(swUrl: RequestInfo) {
+function checkValidServiceWorker(swUrl: RequestInfo): void {
     // Check if the service worker can be found. If it can't reload the page.
     fetch(swUrl)
         .then((response) => {
@@ -102,10 +77,35 @@ function checkValidServiceWorker(swUrl: RequestInfo) {
         });
 }
 
-export function unregister() {
+export function unregister(): void {
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker.ready.then((registration) => {
             registration.unregister();
+        });
+    }
+}
+
+export default function register(): void {
+    if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+        // The URL constructor is available in all browsers that support SW.
+        const publicUrl = new URL(process.env.PUBLIC_URL, window.location as unknown as string);
+        if (publicUrl.origin !== window.location.origin) {
+            // Our service worker won't work if PUBLIC_URL is on a different origin
+            // from what our page is served on. This might happen if a CDN is used to
+            // serve assets; see https://github.com/facebookincubator/create-react-app/issues/2374
+            return;
+        }
+
+        window.addEventListener("load", () => {
+            const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+
+            if (isLocalhost) {
+                // This is running on localhost. Lets check if a service worker still exists or not.
+                checkValidServiceWorker(swUrl);
+            } else {
+                // Is not local host. Just register service worker
+                registerValidSW(swUrl);
+            }
         });
     }
 }

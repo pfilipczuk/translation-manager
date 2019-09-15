@@ -1,6 +1,6 @@
 import { initializeIcons, loadTheme, registerIcons } from "office-ui-fabric-react";
 import "office-ui-fabric-react/dist/css/fabric.css";
-import React from "react";
+import React, { StatelessComponent } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
@@ -20,15 +20,17 @@ registerIcons({
     },
 });
 
-initializeIcons(process.env.PUBLIC_URL + "/fonts/");
+initializeIcons();
 
 registerServiceWorker();
 
-const render = (Component: any) => ReactDOM.render(
-    <BrowserRouter basename={baseUrl}>
-        <Component />
-    </BrowserRouter>,
-    rootElement);
+const render = (Component: StatelessComponent): void => {
+    ReactDOM.render(
+        <BrowserRouter basename={baseUrl}>
+            <Component />
+        </BrowserRouter>,
+        rootElement);
+}
 
 render(App);
 

@@ -1,13 +1,13 @@
 import { ILabelStyles, IStyleFunctionOrObject, ITheme, Label, styled } from "office-ui-fabric-react";
-import React, { Component, Props, ReactNode } from "react";
+import React, { Component } from "react";
 
-interface IProps {
+interface Props {
     theme?: ITheme;
     styles?: IStyleFunctionOrObject<any, any>;
     text: string;
 }
 
-class RibbonBase extends Component<IProps> {
+class RibbonBase extends Component<Props> {
 
     public render(): JSX.Element {
         const styles: Partial<ILabelStyles> = {
@@ -16,7 +16,7 @@ class RibbonBase extends Component<IProps> {
                 backgroundColor: this.props.theme!.palette.neutralLight,
                 writingMode: "tb-rl",
             },
-        } ;
+        };
 
         return (
             <Label styles={styles}>

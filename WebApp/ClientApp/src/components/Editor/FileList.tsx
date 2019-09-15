@@ -17,16 +17,16 @@ import {
 } from "office-ui-fabric-react";
 import { DefaultPalette } from "office-ui-fabric-react";
 import React, { Component } from "react";
-import { IFile, IResource } from "../../services/fileService";
+import { File } from "../../services/fileService";
 
-interface IProps {
+interface Props {
     theme?: ITheme;
     styles?: any;
-    files: IFile[];
+    files: File[];
     onActiveItemChanged?: (item?: any, index?: number, ev?: React.FocusEvent<HTMLElement>) => void;
 }
 
-export class FileListBase extends Component<IProps> {
+export class FileListBase extends Component<Props> {
     private columns: IColumn[] = [{
         key: "name",
         name: "Name",
@@ -49,7 +49,7 @@ export class FileListBase extends Component<IProps> {
         onRender: this.renderFileSize,
     }];
 
-    public constructor(props: IProps) {
+    public constructor(props: Props) {
         super(props);
         this.renderTranslated = this.renderTranslated.bind(this);
         this.renderFileSize = this.renderFileSize.bind(this);
@@ -91,7 +91,7 @@ export class FileListBase extends Component<IProps> {
         );
     }
 
-    private renderTranslated(file: IFile, index?: number, column?: IColumn): JSX.Element {
+    private renderTranslated(file: File, index?: number, column?: IColumn): JSX.Element {
         let color;
         if (file.translatedCount === 0) {
             color = DefaultPalette.red;
@@ -104,7 +104,7 @@ export class FileListBase extends Component<IProps> {
         return (<span style={{ color }}>{`${file.translatedCount}/${file.resxCount}`}</span>);
     }
 
-    private renderFileSize(file: IFile, index?: number, column?: IColumn): JSX.Element {
+    private renderFileSize(file: File, index?: number, column?: IColumn): JSX.Element {
         return (<span>{`${file.fileSize / 1000} KB`}</span>);
     }
 }

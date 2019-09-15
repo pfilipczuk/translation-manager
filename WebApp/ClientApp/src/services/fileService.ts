@@ -1,29 +1,25 @@
 import { loremIpsum } from "./loremIpsum";
 
-export interface IFile {
+export interface File {
     id: number;
     name: string;
-    resources: IResource[];
+    resources: Resource[];
     modified: string;
     fileSize: number;
     resxCount: number;
     translatedCount: number;
 }
 
-export interface IResource {
+export interface Resource {
     key: string;
     source: string;
     translation?: string;
     editor: string;
 }
 
-let files: IFile[] = [];
+let files: File[] = [];
 
-export async function getFiles(): Promise<IFile[]> {
-    return getMockFiles();
-}
-
-function getMockFiles(): IFile[] {
+function getMockFiles(): File[] {
     const N = 2e2;
     const M = 115;
     const date = Date.now();
@@ -31,7 +27,7 @@ function getMockFiles(): IFile[] {
     const fileSize = 14000;
     files = new Array(N);
     for (let i = 0; i < N; i++) {
-        const resources: IResource[] = new Array(M);
+        const resources: Resource[] = new Array(M);
         for (let j = 0; j < M; j++) {
             resources[j] = {
                 key: `${i + 1}.${j + 1}.achievement_for_the_glory_tooltip`,
@@ -55,4 +51,8 @@ function getMockFiles(): IFile[] {
     // tslint:disable-next-line: no-console
     console.log(`Generated ${N * M} objects in ${(Date.now() - date) / 1000}s`);
     return files;
+}
+
+export async function getFiles(): Promise<File[]> {
+    return getMockFiles();
 }

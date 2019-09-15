@@ -1,6 +1,6 @@
 import { toParams, toQuery } from "./utils";
 
-export interface ISuccess {
+export interface Success {
     code: string;
     [key: string]: string;
 }
@@ -17,7 +17,7 @@ export class PopupWindow {
     }
 
     private _iid: number | null | undefined;
-    private promise: Promise<ISuccess>;
+    private promise: Promise<Success>;
 
     private id: string;
     private url: string;
@@ -28,7 +28,7 @@ export class PopupWindow {
         this.id = id;
         this.url = url;
         this.options = options;
-        this.promise = new Promise<ISuccess>((resolve) => resolve());
+        this.promise = new Promise<Success>((resolve) => resolve());
     }
 
     public open(): void {
@@ -62,7 +62,7 @@ export class PopupWindow {
                         return;
                     }
 
-                    const params = toParams(popup.location.search.replace(/^\?/, "")) as ISuccess;
+                    const params = toParams(popup.location.search.replace(/^\?/, "")) as Success;
 
                     resolve(params);
 
@@ -81,7 +81,7 @@ export class PopupWindow {
         }
     }
 
-    public then(onSuccess: (data: ISuccess) => void, onFailure?: (error: Error) => void) {
+    public then(onSuccess: (data: Success) => void, onFailure?: (error: Error) => void) {
         return this.promise.then(onSuccess, onFailure);
     }
 

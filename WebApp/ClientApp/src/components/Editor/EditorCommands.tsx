@@ -1,14 +1,14 @@
 import { CommandBar, ICommandBarItemProps } from "office-ui-fabric-react";
 import React, { Component } from "react";
 
-interface IProps {
+interface Props {
     onUndo: () => void;
     onRedo: () => void;
     undoDisabled: boolean;
     redoDisabled: boolean;
 }
 
-export class EditorCommands extends Component<IProps> {
+export class EditorCommands extends Component<Props> {
     public render(): JSX.Element {
         const commands: ICommandBarItemProps[] = [{
             key: "undo",

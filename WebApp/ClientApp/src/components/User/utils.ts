@@ -1,11 +1,11 @@
-interface IParams {
+interface Params {
     [key: string]: string;
 }
 
-export function toParams(query: string): IParams {
+export function toParams(query: string): Params {
     const q = query.replace(/^\??\//, "");
 
-    return q.split("&").reduce((values: IParams, param) => {
+    return q.split("&").reduce((values: Params, param) => {
         const [key, value] = param.split("=");
 
         values[key] = value;
@@ -14,7 +14,7 @@ export function toParams(query: string): IParams {
     }, {});
 }
 
-export function toQuery(params: IParams, delimiter = "&"): string {
+export function toQuery(params: Params, delimiter = "&"): string {
     const keys = Object.keys(params);
 
     return keys.reduce((str, key, index) => {
